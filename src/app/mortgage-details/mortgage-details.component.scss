@@ -1,0 +1,80 @@
+.header {
+    // background-color: #0A21C0;
+    background-color: #436B65;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+  }
+  
+  .logo {
+    height: 40px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .profile-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    font-size: 24px;
+    margin-right: 20px;
+  }
+  
+//   .content {
+//     background-color: #A9C25D;
+//     min-height: 100vh; /* Adjust the height based on the header height */
+//   }
+  
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #A9C25D;
+    height: 100%; /* Ensure the content area takes the full height of the viewport */
+  }
+  
+  .box {
+    background-color: #F6EEC0;
+    padding: 2rem 2rem 2rem 2rem;
+    margin: 2rem 2rem 2rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 70%; /* Adjust as needed */
+  }
+  
+  .p-fluid .p-field {
+    margin-bottom: 1rem;
+  }
+
+  .loan-term {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .loan-term input {
+    flex: 1;
+  }
+  
+  .paddingTop-container {
+    padding-top: 20px; // Adjust the value as needed
+  }
+  
+  small {
+    color: #414040;
+  }
+  
+  .note {
+    margin-bottom: 10px;
+    font-size: 2rem;
+    color: #666;
+  }
+  
+  
+  

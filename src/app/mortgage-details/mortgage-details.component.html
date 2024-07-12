@@ -1,0 +1,143 @@
+<div class="header">
+    <img src="/assets/images/mortgageImage.jpg" alt="Logo" class="logo">
+    <div class="title">My Mortgage Modeller</div>
+    <div class="profile-section">
+      <i class="pi pi-home icon"></i>
+      <p-avatar label="U" styleClass="mr-2" size="large"></p-avatar>
+    </div>
+</div>
+<div class="content">
+    <div class="box">
+        <p>Enter your details:</p>
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="totalCost">Total cost of the house</label>
+            <div><small>Enter the total purchase price of the property.</small></div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">£</span>
+                <input id="totalCost" type="number" pInputText [(ngModel)]="totalCost" placeholder="Enter total cost of the house">
+            </div>
+          </div>
+          <div class="p-field">
+            <label for="preprocessingCost">Preprocessing charges</label>
+            <div><small>Enter any processing charges associated with the mortgage.</small></div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">£</span>
+                <input id="preprocessingCost" type="number" pInputText [(ngModel)]="preprocessingCost" placeholder="Enter processing charges for the mortgage">
+            </div>
+          </div>
+          <div class="p-field">
+            <label for="downPayment">Down Payment</label>
+            <div><small>Enter the amount you are paying upfront for the house.</small></div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">£</span>
+                <input id="downPayment" type="number" pInputText [(ngModel)]="downPayment" placeholder="Enter down payment paid for the house">
+            </div>
+          </div>
+          <div class="p-field">
+            <label for="interestRate">Intrest Rate</label>
+            <div><small>Enter the annual interest rate for the mortgage.</small></div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">%</span>
+                <input id="interestRate" type="number" pInputText [(ngModel)]="interestRate" placeholder="Enter interest rate for the mortgage">
+            </div>
+          </div>
+          <div class="p-field">
+            <label for="compoundingPeriod">Compounded</label>
+            <div><small>Select how often the interest is compounded.</small></div>
+            <p-dropdown [options]="compoundingOptions" [(ngModel)]="compoundingPeriod" placeholder="Select Compounding Period"></p-dropdown>
+          </div>
+          <div class="p-field">
+            <label for="loanTerm">Loan Term:</label>
+            <div><small>Enter the duration of the loan in years and months.</small></div>
+            <div class="loan-term">
+              <span class="p-inputgroup-addon">Years</span>
+              <input id="loanTermYears" type="number" pInputText [(ngModel)]="loanTermYears" placeholder="Years">
+              <span class="p-inputgroup-addon">Months</span>
+              <input id="loanTermMonths" type="number" pInputText [(ngModel)]="loanTermMonths" placeholder="Months">
+            </div>
+          </div>
+          <div class="p-field">
+            <label>Do you want to add offset option?</label>
+            <div><small>An offset account reduces the interest you pay on your mortgage by offsetting your loan balance with your savings balance.</small></div>
+            <div class="p-formgroup-inline">
+              <div class="p-field-radiobutton">
+                <p-radioButton name="offsetOption" value="yes" [(ngModel)]="offsetOption" inputId="offsetYes"></p-radioButton>
+                <label for="offsetYes">Yes</label>
+              </div>
+              <div class="p-field-radiobutton">
+                <p-radioButton name="offsetOption" value="no" [(ngModel)]="offsetOption" inputId="offsetNo"></p-radioButton>
+                <label for="offsetNo">No</label>
+              </div>
+            </div>
+          </div>
+          <div class="p-field" *ngIf="offsetOption === 'yes'">
+            <label for="offsetAmount">Offset Amount</label>
+            <div><small>Enter the amount you wish to offset against your mortgage.</small></div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">£</span>
+                <input id="offsetAmount" type="number" pInputText [(ngModel)]="offsetAmount" placeholder="Enter offset amount you wish to set">
+            </div>
+            <div>
+                <small style="color: red;">
+                  Please note that this calculation assumes the offset amount is being paid off monthly as part of your installment. 
+                  We recommend consulting with your bank to determine whether there are additional charges for this approach or if it would be more advantageous to pay the entire offset amount in a single lump sum or what bank has to offer.
+                </small>
+            </div>
+          </div>
+        </div>
+        <div class="p-field">
+            <button class="p-button p-button-primary" (click)="calculatePayment()">Calculate Payment</button>
+        </div>
+        <div *ngIf="monthlyPayment || totalPayment" class="result-container">
+            <h3>Results:</h3>
+            <p>Monthly Payment: £{{ monthlyPayment }}</p>
+            <p>Total Payment: £{{ totalPayment }}</p>
+          </div>
+          
+          <div class="p-grid p-nogutter">
+            <div class="p-col" *ngIf="monthlyPayment || totalPayment" class="result-container paddingTop-container">
+                <div class="note">
+                    <small>Below is the detailed breakdown of the total cost of the house:</small>
+                </div>
+                <app-mortgage-pie-chart
+                [downPayment]="downPayment"
+                [preprocessingCharges]="preprocessingCost"
+                [loanAmount]="loanAmount"
+                [interestPaid]="totalInterestPaid"
+              ></app-mortgage-pie-chart>
+            </div>
+          </div>
+
+          <div *ngIf="amortizationSchedule.length > 0" class="result-container paddingTop-container">
+            <div class="note">
+                <small>Below is the detailed schedule and breakdown for your monthly mortgage payments:</small>
+              </div>
+            <p-table [value]="amortizationSchedule" scrollable="true" scrollHeight="400px">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Month</th>
+                  <th>Payment Made</th>
+                  <th>Interest Paid</th>
+                  <th>Remaining Loan Amount</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr>
+                  <td>{{ rowData.month }}</td>
+                  <td>{{ rowData.paymentMade | currency: 'GBP' }}</td>
+                  <td>{{ rowData.interestPaid | currency: 'GBP' }}</td>
+                  <td>{{ rowData.remainingAmount | currency: 'GBP' }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+          <div *ngIf="lineData" class="paddingTop-container">
+            <div class="note">
+                <small>Below is the graphical representation of your loan amount over time:</small>
+            </div>
+            <p-chart type="line" [data]="lineData" [options]="chartOptions"></p-chart>
+          </div>
+      </div>
+</div>
+  
