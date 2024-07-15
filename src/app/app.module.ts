@@ -16,13 +16,16 @@ import { BaseChartDirective } from 'ng2-charts';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { MortgagePieChartComponent } from './mortgage-pie-chart/mortgage-pie-chart.component';
+import { AddMortgageComponent } from './add-mortgage/add-mortgage.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MortgageDetailsComponent,
-    MortgagePieChartComponent
+    MortgagePieChartComponent,
+    AddMortgageComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ import { MortgagePieChartComponent } from './mortgage-pie-chart/mortgage-pie-cha
     AvatarModule,
     RadioButtonModule,
     DropdownModule,
+    DialogModule,
     BrowserAnimationsModule
   ],
   providers: [],

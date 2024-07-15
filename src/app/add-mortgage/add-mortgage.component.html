@@ -1,0 +1,166 @@
+<div class="header">
+    <img src="/assets/images/mortgageImage.jpg" alt="Logo" class="logo">
+    <div class="title">My Mortgage Modeller</div>
+    <div class="profile-section">
+      <i class="pi pi-home icon"></i>
+      <p-avatar label="U" styleClass="mr-2" size="large"></p-avatar>
+    </div>
+</div>
+<div class="content">
+  <div class="p-col-12 p-md-4">
+    <div class="p-card add-card" (click)="showModalDialog()">
+      <div class="p-card-body">
+        <div class="plus-icon">
+          <i class="fa-solid fa-square-plus"></i>
+        </div>
+        <div class="add-text">Click here to add a new model</div>
+      </div>
+    </div>
+  </div>
+  <div class="p-grid">
+
+    <div class="card" *ngFor="let mortgage of mortgages">
+      <div class="card-body">
+        <h4 class="card-title">{{ mortgage.modelName }}</h4>
+        <div class="card-image">
+          <i class="fa-solid fa-money-bill-transfer fa-5x" style="color: #213661;"></i>
+        </div>
+        <p class="card-text" *ngIf="mortgage.bankName">Bank: {{ mortgage.bankName }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Add New Mortgage Model" [(visible)]="displayModal" [modal]="true" [closable]="false" [responsive]="true" [style]="{width: '50vw'}">
+  <form (ngSubmit)="onSubmit()">
+    <div class="p-field">
+      <label for="modelName">Model Name:</label>
+      <input pInputText type="text" id="modelName" [(ngModel)]="modelName" name="modelName" required>
+    </div>
+    <div class="p-field">
+      <label for="bankName">Bank Name (Optional):</label>
+      <input pInputText type="text" id="bankName" [(ngModel)]="bankName" name="bankName">
+    </div>
+    <button pButton type="submit" label="Submit"></button>
+    <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="displayModal = false"></button>
+  </form>
+</p-dialog>
+
+
+<!-- <div class="content">
+  <div class="p-col-12 p-md-4">
+    <div class="p-card add-card" (click)="showModalDialog()">
+      <div class="p-card-body">
+        <div class="plus-icon">+</div>
+        <div class="add-text">Click here to add a new model</div>
+      </div>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <div class="p-card">
+        <div class="p-card-header">
+          <h2>Add New Mortgage Model</h2>
+        </div>
+        <div class="p-card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="p-field">
+              <label for="modelName">Model Name:</label>
+              <input pInputText type="text" id="modelName" [(ngModel)]="modelName" name="modelName" required>
+            </div>
+            <div class="p-field">
+              <label for="bankName">Bank Name (Optional):</label>
+              <input pInputText type="text" id="bankName" [(ngModel)]="bankName" name="bankName">
+            </div>
+            <button pButton type="submit" label="Submit"></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12 p-md-4" *ngFor="let mortgage of mortgages">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{ mortgage.modelName }}</h4>
+          <div class="card-image">
+            <i class="fas fa-money-bill-wave fa-5x" style="color: #213661;"></i>
+          </div>
+          <p class="card-text" *ngIf="mortgage.bankName">Bank: {{ mortgage.bankName }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Add New Mortgage Model" [(visible)]="displayModal" [modal]="true" [closable]="false" [responsive]="true" [style]="{width: '50vw'}">
+  <form (ngSubmit)="onSubmit()">
+    <div class="p-field">
+      <label for="modelName">Model Name:</label>
+      <input pInputText type="text" id="modelName" [(ngModel)]="modelName" name="modelName" required>
+    </div>
+    <div class="p-field">
+      <label for="bankName">Bank Name (Optional):</label>
+      <input pInputText type="text" id="bankName" [(ngModel)]="bankName" name="bankName">
+    </div>
+    <button pButton type="submit" label="Submit"></button>
+    <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="displayModal = false"></button>
+  </form>
+</p-dialog> -->
+
+<!-- <div class="content">
+  <div class="p-col-12 p-md-4">
+    <div class="p-card add-card" (click)="showModalDialog()">
+      <div class="p-card-body">
+        <div class="plus-icon">+</div>
+        <div class="add-text">Click here to add a new model</div>
+      </div>
+    </div>
+  </div>
+<div class="p-grid">
+    <div class="p-col-12">
+      <div class="p-card">
+        <div class="p-card-header">
+          <h2>Add New Mortgage Model</h2>
+        </div>
+        <div class="p-card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="p-field">
+              <label for="modelName">Model Name:</label>
+              <input pInputText type="text" id="modelName" [(ngModel)]="modelName" name="modelName" required>
+            </div>
+            <div class="p-field">
+              <label for="bankName">Bank Name (Optional):</label>
+              <input pInputText type="text" id="bankName" [(ngModel)]="bankName" name="bankName">
+            </div>
+            <button pButton type="submit" label="Submit"></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+    <div class="p-col-12 p-md-4" *ngFor="let mortgage of mortgages">
+      <div class="p-card">
+        <div class="p-card-header">
+          <h3>{{ mortgage.modelName }}</h3>
+        </div>
+        <div class="p-card-body">
+          <p *ngIf="mortgage.bankName">Bank: {{ mortgage.bankName }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog header="Add New Mortgage Model" [(visible)]="displayModal" [modal]="true" [closable]="false" [responsive]="true" [style]="{width: '50vw'}">
+  <form (ngSubmit)="onSubmit()">
+    <div class="p-field">
+      <label for="modelName">Model Name:</label>
+      <input pInputText type="text" id="modelName" [(ngModel)]="modelName" name="modelName" required>
+    </div>
+    <div class="p-field">
+      <label for="bankName">Bank Name (Optional):</label>
+      <input pInputText type="text" id="bankName" [(ngModel)]="bankName" name="bankName">
+    </div>
+    <button pButton type="submit" label="Submit"></button>
+    <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="displayModal=false"></button>
+  </form>
+</p-dialog> -->

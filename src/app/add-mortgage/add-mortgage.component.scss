@@ -1,0 +1,196 @@
+
+  
+  .header {
+    // background-color: #0A21C0;
+    background-color: #436B65;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+  }
+  
+//   .logo {
+//     height: 40px;
+//   }
+  
+//   .title {
+//     font-size: 24px;
+//     font-weight: bold;
+//   }
+
+//   /* AddMortgage Component styles */
+// .p-card {
+//     background-color: #F6EEC0;
+//     border-radius: 15px;
+//   }
+  
+//   .p-card-header {
+//     text-align: center;
+//   }
+  
+//   .p-field {
+//     margin-bottom: 1rem;
+//   }
+  
+//   .p-grid {
+//     margin: 2rem auto;
+//     max-width: 800px;
+//   }
+  
+  /* Global styles */
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #A9C25D;
+    height: 100%; /* Ensure the content area takes the full height of the viewport */
+  }
+  
+
+
+//   .card{
+//     margin: 10px auto;
+//     box-shadow: 0px 2px 4px 0 rgba(0,0,0,0.2);
+//     border-radius: 6px;
+//     height: 100%;
+//     transition: 0.3s;
+//   }
+// .card:hover {
+//   box-shadow: 1px 10px 16px 0 rgba(0,0,0,0.3);
+// }
+//   .card-title{
+//     text-align: center;
+//     color: #666666;
+//     font-weight: bold;
+//   }
+//   .card-text{
+//         font-weight: 500;
+//   color: #66686b;
+//   }
+//   .card-image{
+//     text-align: center;
+//     margin: 5vh 0;
+//   }
+//   .card-text{
+//     text-align: center;
+//   }
+
+//   .title-heading{
+//     font-size: 3em;
+//     text-align: center;
+//     margin: 4%;
+//     font-weight: bold;
+
+//   }
+// .header {
+//   // background-color: #0A21C0;
+//   background-color: #436B65;
+//   color: white;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: auto;
+// }
+
+.logo {
+  height: 40px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* AddMortgage Component styles */
+.p-card {
+  background-color: #F6EEC0;
+  border-radius: 15px;
+}
+
+.p-card-header {
+  text-align: center;
+}
+
+.p-field {
+  margin-bottom: 1rem;
+}
+
+.p-grid {
+  margin: 2rem auto;
+  max-width: 800px;
+}
+
+/* Global styles */
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #A9C25D;
+  height: 100%; /* Ensure the content area takes the full height of the viewport */
+  padding: 2rem;
+}
+
+.add-card {
+  cursor: pointer;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.plus-icon {
+  font-size: 3rem;
+  color: #213661;
+}
+
+.add-text {
+  font-size: 1.2rem;
+  color: #666666;
+}
+
+.p-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  width: 250px;
+  height: 250px;
+  margin: 10px;
+  box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  transition: 0.3s;
+  background-color: #f6eec0;
+}
+
+.card:hover {
+  box-shadow: 1px 10px 16px 0 rgba(0, 0, 0, 0.5);
+}
+
+.card-title {
+  text-align: center;
+  color: #666666;
+  font-weight: bold;
+}
+
+.card-text {
+  font-weight: 500;
+  color: #66686b;
+}
+
+.card-image {
+  text-align: center;
+  margin: 5vh 0;
+}
+
+.card-text {
+  text-align: center;
+}
+
+.title-heading {
+  font-size: 3em;
+  text-align: center;
+  margin: 4%;
+  font-weight: bold;
+}
