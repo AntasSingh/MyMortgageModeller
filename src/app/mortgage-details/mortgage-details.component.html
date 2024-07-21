@@ -8,6 +8,11 @@
 </div>
 <div class="content">
     <div class="box">
+      <div *ngIf="mortgageName">
+        <h2>Model Name: {{ mortgageName.modelName }}</h2>
+        <!-- Conditionally display bank name if it exists -->
+        <p *ngIf="mortgageName.bankName">Bank Name: {{ mortgageName.bankName }}</p>
+      </div>
         <p>Enter your details:</p>
         <div class="p-fluid">
           <div class="p-field">

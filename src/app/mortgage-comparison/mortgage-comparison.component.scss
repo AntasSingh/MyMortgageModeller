@@ -1,0 +1,145 @@
+// .comparison-container {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     height: 100%;
+//     padding: 20px;
+//   }
+  
+//   .mortgage-item {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     border: 1px solid #ddd;
+//     border-radius: 8px;
+//     padding: 16px;
+//     margin: 0 10px;
+//     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+//     background-color: #fff;
+//   }
+  
+//   .details {
+//     margin-bottom: 10px;
+//   }
+
+//   .comparison-container {
+//     width: 100%;
+    
+//     display: flex;
+//     justify-content: center;
+//   }
+  
+//   .mortgage-item {
+//     width: 300px; /* Adjust width as necessary */
+//     padding: 20px;
+//     box-sizing: border-box;
+//   }
+  
+//   ::ng-deep .p-carousel-item {
+//     width: 200px;;
+//     /* Additional styles if needed */
+//   }
+
+  .header {
+    // background-color: #0A21C0;
+    background-color: #436B65;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+  }
+
+  .logo {
+    height: 40px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+
+
+
+//   ::ng-deep .p-carousel .p-carousel-content {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   }
+  
+//   ::ng-deep .p-carousel .p-carousel-item {
+//     overflow: hidden;
+//     flex: 0 0 auto;
+//     box-sizing: border-box;
+//   }
+  
+//   .comparison-container {
+//     padding: 20px;
+//   }
+  
+//   ::ng-deep .p-carousel .p-carousel-item .mortgage-item {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     border: 1px solid var(--surface-d);
+//     border-radius: 3px;
+//     margin: .3rem;
+//     text-align: center;
+//     padding: 2rem 0;
+//   }
+  
+//   ::ng-deep .p-carousel .p-carousel-item .details {
+//     text-align: center;
+//   }
+  
+   /* Styling for the carousel container */
+.comparison-container {
+    background-color: #A9C25D;
+
+    .p-carousel {
+      /* Ensure the carousel items are displayed in a row */
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      background-color: #A9C25D;
+
+      /* Optional: Hide scrollbar */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      
+      &::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
+      }
+    }
+  
+    .p-carousel .p-carousel-item {
+      box-sizing: border-box;
+      flex: 0 0 auto;
+      width: 33.33%; /* Adjust to fit your needs */
+      overflow: hidden; /* Hide overflow */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .mortgage-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid var(--surface-d);
+      border-radius: 3px;
+      margin: .3rem;
+      text-align: center;
+      padding: .5rem .5rem;
+      background-color: #F6EEC0;
+      //width: 100%; /* Ensure it uses full width of the carousel item */
+    }
+  
+    .details {
+      text-align: center;
+    }
+  }
+  
+  

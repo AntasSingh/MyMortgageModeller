@@ -1,0 +1,120 @@
+<div class="header">
+    <img src="/assets/images/mortgageImage.jpg" alt="Logo" class="logo">
+    <div class="title">My Mortgage Modeller</div>
+    <div class="profile-section">
+      <i class="pi pi-home icon"></i>
+      <p-avatar label="U" styleClass="mr-2" size="large"></p-avatar>
+    </div>
+</div>
+<!-- <div class="comparison-container">
+    <p-carousel
+      [value]="mortgages"
+      [numVisible]="3"
+      
+      [circular]="true"
+      [autoplayInterval]="3000"
+      [showNavigators]="true"
+      [showIndicators]="true"
+      [style]="{'width': '100%'}">
+      <ng-template let-mortgage pTemplate="item" >
+        <div class="mortgage-item">
+          <h3>{{ mortgage.modelName }} {{ mortgage.bankName ? '(' + mortgage.bankName + ')' : '' }}</h3>
+          <div class="details">
+            <p>Total Cost: £{{ mortgage.totalCost }}</p>
+            <p>Interest Paid: £{{ mortgage.totalInterestPaid }}</p>
+            <p>Loan Amount: £{{ mortgage.loanAmount }}</p>
+            <p>Monthly Payment: £{{ mortgage.monthlyPayment }}</p>
+          </div>
+          <app-mortgage-pie-chart
+            [downPayment]="mortgage.downPayment"
+            [preprocessingCharges]="mortgage.preprocessingCost"
+            [loanAmount]="mortgage.loanAmount"
+            [interestPaid]="mortgage.totalInterestPaid">
+          </app-mortgage-pie-chart>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div> -->
+  
+<!-- <div class="comparison-container">
+    <p-carousel 
+    [value]="mortgages" 
+    [numVisible]="3" 
+    [circular]="false"  
+    >
+        <ng-template let-mortgage pTemplate="item">
+      <h3>{{ mortgage.modelName }} {{ mortgage.bankName ? '(' + mortgage.bankName + ')' : '' }}</h3>
+      <div class="details">
+        <p>Total Cost: £{{ mortgage.totalCost }}</p>
+        <p>Interest Paid: £{{ mortgage.totalInterestPaid }}</p>
+        <p>Loan Amount: £{{ mortgage.loanAmount }}</p>
+        <p>Monthly Payment: £{{ mortgage.monthlyPayment }}</p>
+      </div>
+      <app-mortgage-pie-chart
+        [downPayment]="mortgage.downPayment"
+        [preprocessingCharges]="mortgage.preprocessingCost"
+        [loanAmount]="mortgage.loanAmount"
+        [interestPaid]="mortgage.totalInterestPaid">
+      </app-mortgage-pie-chart>
+    </ng-template>
+</p-carousel>
+  </div> -->
+<!-- 
+  <div class="comparison-container">
+    <p-carousel
+      [value]="mortgages"
+      [numVisible]="3"
+      [circular]="false"
+      [showNavigators]="true"
+      [style]="{'width': '100%'}"
+      [showIndicators]="true">
+      <ng-template let-mortgage pTemplate="item" >
+        <div class="mortgage-item">
+          <h3>{{ mortgage.modelName }} {{ mortgage.bankName ? '(' + mortgage.bankName + ')' : '' }}</h3>
+          <div class="details">
+            <p>Total Cost: £{{ mortgage.totalCost }}</p>
+            <p>Interest Paid: £{{ mortgage.totalInterestPaid }}</p>
+            <p>Loan Amount: £{{ mortgage.loanAmount }}</p>
+            <p>Monthly Payment: £{{ mortgage.monthlyPayment }}</p>
+          </div>
+          <app-mortgage-pie-chart
+            [downPayment]="mortgage.downPayment"
+            [preprocessingCharges]="mortgage.preprocessingCost"
+            [loanAmount]="mortgage.loanAmount"
+            [interestPaid]="mortgage.totalInterestPaid">
+          </app-mortgage-pie-chart>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div> -->
+  <div class="comparison-container">
+    <p-carousel 
+      [value]="mortgages" 
+      [numVisible]="3" 
+      [numScroll]="1" 
+      [circular]="false" 
+      [responsiveOptions]="responsiveOptions">
+      
+      <ng-template pTemplate="item" let-mortgage>
+        <div class="mortgage-item">
+          <h4>{{ mortgage.modelName }} {{ mortgage.bankName ? '(' + mortgage.bankName + ')' : '' }}</h4>
+          <div class="details">
+            <p>Total Cost: £{{ mortgage.totalCost }}</p>
+            <p>Interest Paid: £{{ mortgage.totalInterestPaid }}</p>
+            <p>Loan Amount: £{{ mortgage.loanAmount }}</p>
+            <p>Monthly Payment: £{{ mortgage.monthlyPayment }}</p>
+          </div>
+          <app-mortgage-pie-chart
+            [downPayment]="mortgage.downPayment"
+            [preprocessingCharges]="mortgage.preprocessingCost"
+            [loanAmount]="mortgage.loanAmount"
+            [interestPaid]="mortgage.totalInterestPaid">
+          </app-mortgage-pie-chart>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+  
+  
+  
+  

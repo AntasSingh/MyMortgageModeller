@@ -18,6 +18,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MortgagePieChartComponent } from './mortgage-pie-chart/mortgage-pie-chart.component';
 import { AddMortgageComponent } from './add-mortgage/add-mortgage.component';
 import { DialogModule } from 'primeng/dialog';
+import { MortgageComparisonComponent } from './mortgage-comparison/mortgage-comparison.component';
+import { CarouselModule } from 'primeng/carousel';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { DialogModule } from 'primeng/dialog';
     LoginComponent,
     MortgageDetailsComponent,
     MortgagePieChartComponent,
-    AddMortgageComponent
+    AddMortgageComponent,
+    MortgageComparisonComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { DialogModule } from 'primeng/dialog';
     RadioButtonModule,
     DropdownModule,
     DialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

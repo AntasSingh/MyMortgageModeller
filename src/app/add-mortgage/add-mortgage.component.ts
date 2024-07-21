@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Mortgage } from '../Models/mortgage.model';
 import { Router } from '@angular/router';
+import { AddMortgageDetailsService } from '../services/add-mortgage-details.service';
 
 @Component({
   selector: 'app-add-mortgage',
@@ -13,7 +14,7 @@ export class AddMortgageComponent implements OnInit {
   mortgages: Mortgage[] = [];
   displayModal: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private mortgageService: AddMortgageDetailsService,) {}
 
   ngOnInit(): void {
     const storedMortgages = localStorage.getItem('mortgages');
@@ -32,9 +33,8 @@ export class AddMortgageComponent implements OnInit {
 
   onSubmit() {
     const newMortgage = new Mortgage(this.modelName, this.bankName);
-    this.mortgages.push(newMortgage);
-    localStorage.setItem('mortgages', JSON.stringify(this.mortgages));
-    this.router.navigate(['/mortgageDetails'], { state: { mortgage: newMortgage } });
+    this.mortgageService.setMortgage(newMortgage);
+    this.router.navigate(['/mortgageDetails']);
     this.displayModal = false;
   }
 

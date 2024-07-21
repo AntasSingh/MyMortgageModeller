@@ -3,6 +3,9 @@ import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { BaseChartDirective } from 'ng2-charts';
+import { MortgageDetailsService } from '../services/mortgage-service.service';
+import { Mortgage, MortgageDetails } from '../Models/mortgage.model';
+import { AddMortgageDetailsService } from '../services/add-mortgage-details.service';
 
 interface AmortizationSchedule {
   month: number;
@@ -16,7 +19,6 @@ interface AmortizationSchedule {
   styleUrl: './mortgage-details.component.scss'
 })
 export class MortgageDetailsComponent {
-
 
   totalCost!: number;
   downPayment!: number;
@@ -42,8 +44,9 @@ export class MortgageDetailsComponent {
   lineData: any;
   chartOptions: ChartOptions = {};
   amortizationSchedule: AmortizationSchedule[] = [];
+  mortgageName!: Mortgage;
 
-  constructor() {
+  constructor(private mortgageDetailsService: MortgageDetailsService,private mortgageService: AddMortgageDetailsService) {
     this.chartOptions = {
       responsive: true,
       scales: {
@@ -98,7 +101,15 @@ export class MortgageDetailsComponent {
 
     Chart.register(zoomPlugin);
   }
-
+  ngOnInit(): void {
+    const mortgage = this.mortgageService.getMortgage();
+    if (mortgage) {
+      this.mortgageName = mortgage;
+    } else {
+      // Handle the case when no mortgage data is available
+      console.error('No mortgage data available');
+    }
+  }
   calculatePayment() {
     if (!this.totalCost || !this.downPayment || !this.interestRate ||
         (!this.loanTermYears && !this.loanTermMonths)) {
@@ -138,6 +149,28 @@ export class MortgageDetailsComponent {
     this.totalInterestPaid = (monthlyPayment * numberOfPayments) - this.loanAmount;
     const totalPayment = (monthlyPayment * numberOfPayments) + this.downPayment + this.preprocessingCost;
     this.totalPayment = parseFloat(totalPayment.toFixed(2));
+
+    const newMortgageDetails = new MortgageDetails();
+    newMortgageDetails.totalCost = this.totalCost;
+    newMortgageDetails.downPayment = this.downPayment;
+    newMortgageDetails.interestRate = this.interestRate;
+    newMortgageDetails.loanTerm = this.loanTerm;
+    newMortgageDetails.preprocessingCost = this.preprocessingCost;
+    newMortgageDetails.offsetAmount = this.offsetAmount;
+    newMortgageDetails.loanTermYears = this.loanTermYears;
+    newMortgageDetails.loanTermMonths = this.loanTermMonths;
+    newMortgageDetails.loanAmount = this.loanAmount;
+    newMortgageDetails.totalInterestPaid = this.totalInterestPaid;
+    newMortgageDetails.monthlyInterestRate = this.monthlyInterestRate;
+    newMortgageDetails.offsetOption = this.offsetOption !== 'no';
+    newMortgageDetails.compoundingPeriod = this.compoundingPeriod;
+    newMortgageDetails.monthlyPayment = this.monthlyPayment;
+    newMortgageDetails.totalPayment = this.totalPayment;
+    newMortgageDetails.modelName = this.mortgageName.modelName; // Assuming `modelName` is a property on the component
+    newMortgageDetails.bankName = this.mortgageName.bankName || undefined;
+
+    // Add the new MortgageDetails object to the MortgageDetailsService
+    this.mortgageDetailsService.addMortgageDetails(newMortgageDetails);
   
     // Recalculate amortization schedule with the offset amount
     this.calculateAmortization();
@@ -175,7 +208,6 @@ export class MortgageDetailsComponent {
     if (this.offsetOption === 'yes' && this.offsetAmount) {
       principal -= this.offsetAmount;
     }
-    //const monthlyInterestRate = this.interestRate / 100 / 12;
     const numberOfPayments = this.loanTerm;
     const dailyInterestRate = this.interestRate / 100 / 365;
 
@@ -185,48 +217,12 @@ export class MortgageDetailsComponent {
 
     const dailyPayments = [];
     const dailyLabels = [];
-    // let dailyRemainingAmount = principal;
-
-    // Calculate the monthly payment
+    
     const x = Math.pow(1 + this.monthlyInterestRate, numberOfPayments);
     let monthlyPayment = (principal * x * this.monthlyInterestRate) / (x - 1);
     if (this.offsetOption === 'yes' && this.offsetAmount) {
       monthlyPayment = monthlyPayment + (this.offsetAmount / numberOfPayments);
     }
-
-
-    // for (let day = 1; day <= numberOfDays; day++) {
-    //   // Calculate daily interest
-    //   const dailyInterestPaid = dailyRemainingAmount * dailyInterestRate;
-    //   dailyRemainingAmount += dailyInterestPaid; // Add interest to the remaining amount
-
-    //   // Apply monthly payment at the end of each month
-    //   if (day % 30 === 0) { // Assuming 30 days per month
-    //     const interestPaidThisMonth = dailyRemainingAmount * this.monthlyInterestRate;
-    //     const principalPaidThisMonth = monthlyPayment - interestPaidThisMonth;
-    //     dailyRemainingAmount -= principalPaidThisMonth;
-
-    //   }
-
-    //   dailyPayments.push(dailyRemainingAmount);
-    //   //dailyLabels.push(day);
-    //   dailyLabels.push(`Month ${Math.ceil(day / 30)}`); // Convert days to months
-    // }
-
-    // // Assign to lineData for chart
-    // this.lineData = {
-    //   labels: dailyLabels,
-    //   datasets: [
-    //     {
-    //       label: 'Remaining Loan Amount',
-    //       data: dailyPayments,
-    //       fill: false,
-    //       borderColor: '#4bc0c0'
-    //     }
-    //   ]
-    // };
-
-    // Calculate monthly amortization schedule
     this.amortizationSchedule = [];
     let remainingAmountWithIntrest = principal;
     let remainingAmount = principal;
@@ -277,16 +273,7 @@ export class MortgageDetailsComponent {
         if (this.offsetOption === 'yes' && this.offsetAmount) {
           interestPaid = dailyAmountWithIntrest * this.monthlyInterestRate;
         }
-        //const principalPaid = monthlyPayment - interestPaid;
         dailyAmount += (interestPaid/30);
-        // if (this.offsetOption === 'yes' && this.offsetAmount) {
-        //   remainingAmountWithIntrest -= monthlyPayment - interestPaid - (this.offsetAmount / numberOfPayments);
-        // }
-        // let dailyInterestPaid = dailyAmount * (this.interestRate/100/365);
-        // if (this.offsetOption === 'yes' && this.offsetAmount) {
-        //   dailyInterestPaid = dailyAmountWithIntrest * (this.interestRate/100/365);
-        // }
-        // dailyAmount += dailyInterestPaid; // Add interest to the remaining amount
 
         if (day % 30 === 0) { // Assuming 30 days per month
           
