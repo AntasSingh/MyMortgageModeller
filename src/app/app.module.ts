@@ -20,6 +20,8 @@ import { AddMortgageComponent } from './add-mortgage/add-mortgage.component';
 import { DialogModule } from 'primeng/dialog';
 import { MortgageComparisonComponent } from './mortgage-comparison/mortgage-comparison.component';
 import { CarouselModule } from 'primeng/carousel';
+import { HighchartsChartModule } from 'highcharts-angular';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { CarouselModule } from 'primeng/carousel';
     DropdownModule,
     DialogModule,
     BrowserAnimationsModule,
-    CarouselModule
+    CarouselModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

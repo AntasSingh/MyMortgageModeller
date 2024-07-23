@@ -39,14 +39,22 @@
 //   }
   
   /* Global styles */
+  // .content {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   background-color: #A9C25D;
+  //   height: 100%; /* Ensure the content area takes the full height of the viewport */
+  // }
   .content {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #A9C25D;
     height: 100%; /* Ensure the content area takes the full height of the viewport */
+    padding: 2rem;
   }
-  
 
 
 //   .card{
@@ -122,15 +130,7 @@
 }
 
 /* Global styles */
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #A9C25D;
-  height: 100%; /* Ensure the content area takes the full height of the viewport */
-  padding: 2rem;
-}
+
 
 .add-card {
   cursor: pointer;
