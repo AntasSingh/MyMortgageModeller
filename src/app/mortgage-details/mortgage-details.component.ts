@@ -49,7 +49,6 @@ export class MortgageDetailsComponent {
   lineData: any;
   chartOptions: ChartOptions = {};
   amortizationSchedule: AmortizationSchedule[] = [];
-  amortizationSchedule2: AmortizationSchedule[] = [];
   mortgageName!: Mortgage;
 
   constructor(private mortgageDetailsService: MortgageDetailsService, private mortgageService: AddMortgageDetailsService) {
@@ -273,7 +272,7 @@ export class MortgageDetailsComponent {
     let totalPaymentWithOffset = 0;
     let lineLabels = [];
     let lineData = [];
-
+    this.amortizationSchedule=[];
 
     for (let month = 1; month <= numberOfPayments; month++) {
       this.fixedAmount += monthyIncrementOffset;
@@ -286,7 +285,7 @@ export class MortgageDetailsComponent {
       const principalPayment = monthlyPayment - interestPayment;
       const monthlyPaymentWithOffset = principalPayment + interestPaymentWithOffset;
       remainingBalance -= principalPayment;
-      this.amortizationSchedule2.push({
+      this.amortizationSchedule.push({
         month: month,
         paymentMade: monthlyPaymentWithOffset,
         interestPaid: interestPaymentWithOffset,
@@ -300,7 +299,7 @@ export class MortgageDetailsComponent {
       
     }
     if (this.compoundingPeriod === 'daily'){
-      this.calculateDailyPayments(this.amortizationSchedule2,this.loanAmount);
+      this.calculateDailyPayments(this.amortizationSchedule,this.loanAmount);
     }
     else {
     this.lineData = {
@@ -314,8 +313,8 @@ export class MortgageDetailsComponent {
         }
       ]
     };}
+    this.monthlyPayment = totalPaymentWithOffset / this.amortizationSchedule.length;
     totalPaymentWithOffset += this.downPayment + this.preprocessingCost;
-    this.monthlyPayment = totalPaymentWithOffset / this.amortizationSchedule2.length;
     this.totalInterestPaid = totalInterestPaidWithOffset;
     this.totalPayment = parseFloat(totalPaymentWithOffset.toFixed(2));
 

@@ -21,6 +21,8 @@ import { DialogModule } from 'primeng/dialog';
 import { MortgageComparisonComponent } from './mortgage-comparison/mortgage-comparison.component';
 import { CarouselModule } from 'primeng/carousel';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { HighchartsAreaChartComponent } from './highcharts-area-chart/highcharts-area-chart.component';
+import { HighchartsLTVChartComponent } from './highcharts-ltv-chart/highcharts-ltv-chart.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { HighchartsChartModule } from 'highcharts-angular';
     MortgageDetailsComponent,
     MortgagePieChartComponent,
     AddMortgageComponent,
-    MortgageComparisonComponent
+    MortgageComparisonComponent,
+    HighchartsAreaChartComponent,
+    HighchartsLTVChartComponent
   ],
   imports: [
     BrowserModule,

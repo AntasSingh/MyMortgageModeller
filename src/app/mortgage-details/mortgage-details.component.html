@@ -158,6 +158,22 @@
           [loanAmount]="loanAmount" [interestPaid]="totalInterestPaid"></app-mortgage-pie-chart>
       </div>
     </div>
+    <div class="p-grid p-nogutter">
+      <div class="p-col" *ngIf="amortizationSchedule.length > 0" class="result-container paddingTop-container">
+        <div class="note">
+          <small>Below we can see the principial amount vs Intrest Over Time:</small>
+        </div>
+        <app-highcharts-area-chart [amortizationSchedule]="amortizationSchedule"></app-highcharts-area-chart>
+      </div>
+    </div>
+    <div class="p-grid p-nogutter">
+      <div class="p-col" *ngIf="monthlyPayment || totalPayment" class="result-container paddingTop-container">
+        <div class="note">
+          <small>Below we can see the principial amount vs Intrest Over Time:</small>
+        </div>
+        <app-highcharts-ltv-chart [totalCost]="totalCost" [loanAmount]="loanAmount"></app-highcharts-ltv-chart>
+      </div>
+    </div>
 
     <div *ngIf="amortizationSchedule.length > 0" class="result-container paddingTop-container">
       <div class="note">
@@ -187,29 +203,6 @@
         <small>Below is the graphical representation of your loan amount over time:</small>
       </div>
       <p-chart type="line" [data]="lineData" [options]="chartOptions"></p-chart>
-    </div>
-    <div *ngIf="amortizationSchedule2.length > 0" class="result-container paddingTop-container">
-      <div class="note">
-        <small>Below is the detailed schedule and breakdown for your monthly mortgage payments:</small>
-      </div>
-      <p-table [value]="amortizationSchedule2" scrollable="true" scrollHeight="400px">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Month</th>
-            <th>Payment Made</th>
-            <th>Interest Paid</th>
-            <th>Remaining Loan Amount</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData>
-          <tr>
-            <td>{{ rowData.month }}</td>
-            <td>{{ rowData.paymentMade | currency: 'GBP' }}</td>
-            <td>{{ rowData.interestPaid | currency: 'GBP' }}</td>
-            <td>{{ rowData.remainingAmount | currency: 'GBP' }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
     </div>
   </div>
 </div>
