@@ -49,7 +49,7 @@ export class MortgageDetailsComponent {
   lineData: any;
   chartOptions: ChartOptions = {};
   amortizationSchedule: AmortizationSchedule[] = [];
-  amortizationSchedule2: any[] = [];
+  amortizationSchedule2: AmortizationSchedule[] = [];
   mortgageName!: Mortgage;
 
   constructor(private mortgageDetailsService: MortgageDetailsService, private mortgageService: AddMortgageDetailsService) {
@@ -256,43 +256,7 @@ export class MortgageDetailsComponent {
     };
 
     if (this.compoundingPeriod === 'daily') {
-      let dailyAmountWithIntrest = principal;
-      let dailyAmount = principal;
-      if (this.offsetOption === 'yes' && this.offsetAmount) {
-        dailyAmount = principal + this.offsetAmount;
-      }
-      for (let day = 1; day <= numberOfDays; day++) {
-        let interestPaid = dailyAmount * this.monthlyInterestRate;
-        if (this.offsetOption === 'yes' && this.offsetAmount) {
-          interestPaid = dailyAmountWithIntrest * this.monthlyInterestRate;
-        }
-        dailyAmount += (interestPaid / 30);
-
-        if (day % 30 === 0) { // Assuming 30 days per month
-
-          dailyAmount -= monthlyPayment;
-          if (this.offsetOption === 'yes' && this.offsetAmount) {
-            remainingAmountWithIntrest -= monthlyPayment - interestPaid - (this.offsetAmount / numberOfPayments);
-          }
-        }
-        if (this.loanTerm < Math.ceil(day / 30)) {
-          break;
-        }
-        dailyPayments.push(Math.max(0, dailyAmount));
-        //dailyLabels.push(day);
-        dailyLabels.push(`Month ${Math.ceil(day / 30)}`);
-      }
-      this.lineData = {
-        labels: dailyLabels,
-        datasets: [
-          {
-            label: 'Remaining Loan Amount',
-            data: dailyPayments,
-            fill: false,
-            borderColor: '#4bc0c0'
-          }
-        ]
-      };
+      this.calculateDailyPayments(this.amortizationSchedule,this.loanAmount);
     }
   }
   
@@ -332,11 +296,13 @@ export class MortgageDetailsComponent {
       totalPaymentWithOffset += monthlyPaymentWithOffset;
       lineData.push(Math.max(0, remainingBalance));
       lineLabels.push(`Month ${month}`);
-      // Adjust remaining balance in case it drops below zero due to precision issues
       if (remainingBalance < 0) { remainingBalance = 0; break; };
       
     }
-
+    if (this.compoundingPeriod === 'daily'){
+      this.calculateDailyPayments(this.amortizationSchedule2,this.loanAmount);
+    }
+    else {
     this.lineData = {
       labels: lineLabels,
       datasets: [
@@ -347,7 +313,7 @@ export class MortgageDetailsComponent {
           borderColor: '#4bc0c0'
         }
       ]
-    };
+    };}
     totalPaymentWithOffset += this.downPayment + this.preprocessingCost;
     this.monthlyPayment = totalPaymentWithOffset / this.amortizationSchedule2.length;
     this.totalInterestPaid = totalInterestPaidWithOffset;
@@ -373,6 +339,43 @@ export class MortgageDetailsComponent {
     newMortgageDetails.bankName = this.mortgageName.bankName || undefined;
 
     this.mortgageDetailsService.addMortgageDetails(newMortgageDetails);
+  }
+
+  calculateDailyPayments(schedule: AmortizationSchedule[], totalAmount: number) {
+    let dailyPayments: number[] = [];
+    let dailyLabels: string[] = [];
+    let currentDate = new Date();
+  
+    for (let i = 0; i < schedule.length; i++) {
+      const { month, paymentMade, interestPaid, remainingAmount } = schedule[i];
+      
+      currentDate.setMonth(month - 1);
+      currentDate.setDate(1);
+      
+      const daysInCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+      const dailyInterest = interestPaid / daysInCurrentMonth;
+  
+      for (let day = 1; day <= daysInCurrentMonth; day++) {
+        totalAmount += dailyInterest;
+        dailyPayments.push(Math.max(0, totalAmount));
+        dailyLabels.push(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${day}`);
+      }
+  
+      totalAmount -= paymentMade;
+    }
+  
+    this.lineData = {
+      labels: dailyLabels,
+      datasets: [
+        {
+          label: 'Remaining Loan Amount',
+          data: dailyPayments,
+          fill: false,
+          borderColor: '#4bc0c0'
+        }
+      ]
+    };
+
   }
 }
 
