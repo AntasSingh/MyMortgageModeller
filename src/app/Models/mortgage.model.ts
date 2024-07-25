@@ -5,13 +5,20 @@ export class Mortgage {
   ) { }
 }
 
+export interface AmortizationSchedule {
+  month: number;
+  paymentMade: number;
+  interestPaid: number;
+  remainingAmount: number;
+}
+
 export class MortgageDetails {
   totalCost: number;
   downPayment: number;
   interestRate: number;
   loanTerm: number;
   preprocessingCost: number;
-  offsetAmount?: number; // Optional
+  fixedAmount?: number; // Optional
   loanTermYears: number;
   loanTermMonths: number;
   loanAmount: number;
@@ -22,7 +29,8 @@ export class MortgageDetails {
   monthlyPayment: number;
   totalPayment: number;
   modelName: string; 
-  bankName?: string; 
+  bankName?: string;
+  monthlyAdditionOffset: number; 
 
   constructor() {
     this.totalCost = 0;
@@ -30,7 +38,7 @@ export class MortgageDetails {
     this.interestRate = 0;
     this.loanTerm = 0;
     this.preprocessingCost = 0;
-    this.offsetAmount = undefined;
+    this.fixedAmount = undefined;
     this.loanTermYears = 0;
     this.loanTermMonths = 0;
     this.loanAmount = 0;
@@ -42,5 +50,6 @@ export class MortgageDetails {
     this.totalPayment = 0;
     this.modelName = ''; 
     this.bankName = undefined; 
+    this.monthlyAdditionOffset =0;
   }
 }

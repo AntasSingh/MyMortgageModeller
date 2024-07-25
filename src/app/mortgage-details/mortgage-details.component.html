@@ -68,9 +68,13 @@
         </div>
       </div>
       <div class="p-field">
-        <label>Do you want to add offset option?</label>
-        <div><small>An offset account reduces the interest you pay on your mortgage by offsetting your loan balance with
-            your savings balance.</small></div>
+        <div><label>Do you want to add offset option?</label></div>
+        <div><label><p>What is an offset mortgage?</p></label></div>
+        <div><p>Use your savings to reduce the amount of interest you pay with an offset mortgage.</p></div>
+        <div>
+        <small>An offset mortgage is a type of mortgage that is linked to one of your savings accounts.The money in your savings isn’t used to pay off your mortgage. Instead, it’s used to lower the total interest you’ll be charged on your repayments each month.
+         Even though it could make your mortgage repayments cheaper, you won’t earn any interest on those savings your mortgage is ‘offset’ against.
+        </small></div>
         <div class="p-formgroup-inline">
           <div class="p-field-radiobutton">
             <p-radioButton name="offsetOption" value="yes" [(ngModel)]="offsetOption"
@@ -88,19 +92,14 @@
         <div class="p-field" *ngIf="offsetOption === 'yes'">
           <label for="offsetType">Offset Type</label>
           <div><small>Choose the type of offset you prefer.</small></div>
+          <div><small>In this type of offset you fix an amount at the start of the mortgage term</small></div>
           <div class="p-field-radiobutton">
             <p-radioButton name="offsetTypeOption" value="fixed" [(ngModel)]="offsetTypeOption"
               inputId="offsetTypeFixed"></p-radioButton>
             <label for="offsetTypeFixed">Fixed Amount</label>
           </div>
-          <div class="p-field-radiobutton">
-            <p-radioButton name="offsetTypeOption" value="monthly" [(ngModel)]="offsetTypeOption"
-              inputId="offsetTypeMonthly"></p-radioButton>
-            <label for="offsetTypeMonthly">Monthly Deposit</label>
-          </div>
-
           <div class="p-field" *ngIf="offsetTypeOption === 'fixed'">
-            <label for="fixedAmount">Fixed Amount</label>
+            <!-- <label for="fixedAmount">Fixed Amount</label> -->
             <div><small>Enter the fixed amount to offset against your mortgage.</small></div>
             <div class="p-inputgroup">
               <span class="p-inputgroup-addon">£</span>
@@ -108,6 +107,14 @@
                 placeholder="Enter fixed amount">
             </div>
           </div>
+          <div><small>In this type of offset you fix an amount at the start of the mortgage term and to this account add some fixed amount each month</small></div>
+          <div class="p-field-radiobutton">
+            <p-radioButton name="offsetTypeOption" value="monthly" [(ngModel)]="offsetTypeOption"
+              inputId="offsetTypeMonthly"></p-radioButton>
+            <label for="offsetTypeMonthly">Monthly Deposit</label>
+          </div>
+
+          
 
           <div class="p-field" *ngIf="offsetTypeOption === 'monthly'">
             <label for="fixedAmount">Initial Amount</label>
@@ -126,17 +133,6 @@
                 placeholder="Enter monthly addition amount">
             </div>
           </div>
-        </div>
-
-
-        <div>
-          <small style="color: red;">
-            Please note that this calculation assumes the offset amount is being paid off monthly as part of your
-            installment.
-            We recommend consulting with your bank to determine whether there are additional charges for this approach
-            or if it would be more advantageous to pay the entire offset amount in a single lump sum or what bank has to
-            offer.
-          </small>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 // mortgage-calculator.service.ts
 import { Injectable } from '@angular/core';
-import { MortgageDetails } from '../Models/mortgage.model';
+import { AmortizationSchedule, MortgageDetails } from '../Models/mortgage.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,68 +9,18 @@ export class MortgageCalculatorService {
 
   constructor() { }
 
-  calculatePayment(mortgage: MortgageDetails): MortgageDetails {
-    const totalLoanTermMonths = (mortgage.loanTermYears || 0) * 12 + (mortgage.loanTermMonths || 0);
-    mortgage.loanTerm = totalLoanTermMonths;
-  
-    let principal = mortgage.totalCost - mortgage.downPayment;
-    mortgage.loanAmount = principal;
-    if (mortgage.offsetOption && mortgage.offsetAmount) {
-      principal -= mortgage.offsetAmount;
-    }
-    const annualInterestRate = mortgage.interestRate / 100;
-  
-    // Convert annual interest rate to monthly interest rate
-    mortgage.monthlyInterestRate = this.convertInterestRate(annualInterestRate, mortgage.compoundingPeriod);
-  
-    // Calculate monthly payment
-    const numberOfPayments = totalLoanTermMonths;
-    const x = Math.pow(1 + mortgage.monthlyInterestRate, numberOfPayments);
-    let monthlyPayment = (principal * x * mortgage.monthlyInterestRate) / (x - 1);
-  
-    // Add offset amount to monthly payment
-    if (mortgage.offsetOption && mortgage.offsetAmount) {
-      const offsetAmountPerMonth = mortgage.offsetAmount / totalLoanTermMonths;
-      monthlyPayment += offsetAmountPerMonth;
-    }
-  
-    mortgage.monthlyPayment = parseFloat(monthlyPayment.toFixed(2));
-  
-    // Calculate total payment
-    mortgage.totalInterestPaid = (monthlyPayment * numberOfPayments) - mortgage.loanAmount;
-    const totalPayment = (monthlyPayment * numberOfPayments) + mortgage.downPayment + mortgage.preprocessingCost;
-    mortgage.totalPayment = parseFloat(totalPayment.toFixed(2));
-  
-    return mortgage;
-  }
-  
-  convertInterestRate(rate: number, rateType: string): number {
-    switch (rateType.toLowerCase()) {
-      case 'annually':
-        return Math.pow(1 + rate, 1 / 12) - 1;
-      case 'monthly':
-        return rate / 12;
-      case 'daily':
-        const dailyRate = rate / 365;
-        const annualRate = Math.pow(1 + dailyRate, 365) - 1;
-        return Math.pow(1 + annualRate, 1 / 12) - 1;
-      default:
-        throw new Error(`Unsupported rate type: ${rateType}`);
-    }
-  }
-
   calculateAmortization(mortgage: MortgageDetails): any[] {
     let principal = mortgage.totalCost - mortgage.downPayment;
-    if (mortgage.offsetOption && mortgage.offsetAmount) {
-      principal -= mortgage.offsetAmount;
+    if (mortgage.offsetOption && mortgage.fixedAmount) {
+      return this.calculateOffsetPayments(mortgage);
     }
     const numberOfPayments = mortgage.loanTerm;
     const x = Math.pow(1 + mortgage.monthlyInterestRate, numberOfPayments);
     let monthlyPayment = (principal * x * mortgage.monthlyInterestRate) / (x - 1);
-    if (mortgage.offsetOption && mortgage.offsetAmount) {
-      monthlyPayment += mortgage.offsetAmount / numberOfPayments;
+    if (mortgage.offsetOption && mortgage.fixedAmount) {
+      monthlyPayment += mortgage.fixedAmount / numberOfPayments;
     }
-    const amortizationSchedule = [];
+    const amortizationSchedule: AmortizationSchedule[] = [];
     let remainingAmount = principal;
 
     for (let month = 1; month <= numberOfPayments; month++) {
@@ -85,6 +35,49 @@ export class MortgageCalculatorService {
       });
     }
     console.log(amortizationSchedule[1].remainingAmount)
+    return amortizationSchedule;
+  }
+
+  calculateOffsetPayments(mortgage: MortgageDetails) {
+    const numberOfPayments = mortgage.loanTerm;
+    const x = Math.pow(1 + mortgage.monthlyInterestRate, numberOfPayments);
+    let monthlyPayment = (mortgage.loanAmount * x * mortgage.monthlyInterestRate) / (x - 1);
+    let remainingBalance = mortgage.loanAmount;
+    let monthyIncrementOffset = mortgage.monthlyAdditionOffset;
+    // if (this.offsetTypeOption === 'monthly') {
+    //   monthyIncrementOffset = this.monthlyAddition;
+    // }
+    let totalInterestPaidWithOffset = 0;
+    let totalPaymentWithOffset = 0;
+    let lineLabels = [];
+    let lineData = [];
+    let offsetStartAmount = mortgage.fixedAmount !== undefined ? mortgage.fixedAmount : 0;
+    const amortizationSchedule: AmortizationSchedule[] = [];
+
+    for (let month = 1; month <= numberOfPayments; month++) {
+      offsetStartAmount += monthyIncrementOffset;
+      const principalWithOffset = remainingBalance - offsetStartAmount;
+      let interestPaymentWithOffset = principalWithOffset * mortgage.monthlyInterestRate;
+      if (principalWithOffset <= 0) {
+        interestPaymentWithOffset = 0;
+      }
+      const interestPayment = remainingBalance * mortgage.monthlyInterestRate;
+      const principalPayment = monthlyPayment - interestPayment;
+      const monthlyPaymentWithOffset = principalPayment + interestPaymentWithOffset;
+      remainingBalance -= principalPayment;
+      amortizationSchedule.push({
+        month: month,
+        paymentMade: monthlyPaymentWithOffset,
+        interestPaid: interestPaymentWithOffset,
+        remainingAmount: remainingBalance
+      });
+      totalInterestPaidWithOffset += interestPaymentWithOffset;
+      totalPaymentWithOffset += monthlyPaymentWithOffset;
+      lineData.push(Math.max(0, remainingBalance));
+      lineLabels.push(`Month ${month}`);
+      if (remainingBalance < 0) { remainingBalance = 0; break; };
+      
+    }
     return amortizationSchedule;
   }
 }

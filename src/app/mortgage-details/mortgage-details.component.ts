@@ -121,22 +121,17 @@ export class MortgageDetailsComponent {
       alert('Please fill in all fields.');
       return;
     }
-
-    // Convert loan term to months
     const totalLoanTermMonths = (this.loanTermYears || 0) * 12 + (this.loanTermMonths || 0);
     this.loanTerm = totalLoanTermMonths;
     const annualInterestRate = this.interestRate / 100;
     this.monthlyInterestRate = this.convertInterestRate(annualInterestRate, this.compoundingPeriod);
 
-    //const principal = this.totalCost - this.downPayment;
     let principal = this.totalCost - this.downPayment;
     this.loanAmount = principal;
     if (this.offsetOption === 'yes' && this.fixedAmount) {
       this.calculateOffsetPayments(principal, totalLoanTermMonths);
       principal -= this.fixedAmount;
     } else {
-      console.log("here12345");
-      // Calculate monthly payment
       const numberOfPayments = totalLoanTermMonths;
       const x = Math.pow(1 + this.monthlyInterestRate, numberOfPayments);
       let monthlyPayment = (principal * x * this.monthlyInterestRate) / (x - 1);
@@ -152,7 +147,8 @@ export class MortgageDetailsComponent {
       newMortgageDetails.interestRate = this.interestRate;
       newMortgageDetails.loanTerm = this.loanTerm;
       newMortgageDetails.preprocessingCost = this.preprocessingCost;
-      newMortgageDetails.offsetAmount = this.offsetAmount;
+      newMortgageDetails.fixedAmount = this.offsetAmount;
+      newMortgageDetails.monthlyAdditionOffset = this.monthlyAddition;
       newMortgageDetails.loanTermYears = this.loanTermYears;
       newMortgageDetails.loanTermMonths = this.loanTermMonths;
       newMortgageDetails.loanAmount = this.loanAmount;
@@ -273,10 +269,11 @@ export class MortgageDetailsComponent {
     let lineLabels = [];
     let lineData = [];
     this.amortizationSchedule=[];
+    let offsetStartAmount =this.fixedAmount;
 
     for (let month = 1; month <= numberOfPayments; month++) {
-      this.fixedAmount += monthyIncrementOffset;
-      const principalWithOffset = remainingBalance - this.fixedAmount;
+      offsetStartAmount += monthyIncrementOffset;
+      const principalWithOffset = remainingBalance - offsetStartAmount;
       let interestPaymentWithOffset = principalWithOffset * this.monthlyInterestRate;
       if (principalWithOffset <= 0) {
         interestPaymentWithOffset = 0;
@@ -324,7 +321,8 @@ export class MortgageDetailsComponent {
     newMortgageDetails.interestRate = this.interestRate;
     newMortgageDetails.loanTerm = this.loanTerm;
     newMortgageDetails.preprocessingCost = this.preprocessingCost;
-    newMortgageDetails.offsetAmount = this.offsetAmount;
+    newMortgageDetails.fixedAmount = this.fixedAmount;
+    newMortgageDetails.monthlyAdditionOffset =this.monthlyAddition;
     newMortgageDetails.loanTermYears = this.loanTermYears;
     newMortgageDetails.loanTermMonths = this.loanTermMonths;
     newMortgageDetails.loanAmount = this.loanAmount;
