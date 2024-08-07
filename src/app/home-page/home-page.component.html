@@ -1,0 +1,38 @@
+<app-header></app-header>
+<div class="containerMain">
+<section class="mortgage-calculator">
+    <header class="header">
+      <h1 class="title">
+        Your Mortgage <span class="highlight">Simplified</span>
+      </h1>
+      <p class="subtitle">
+        Calculate and Compare Mortgage Options Effortlessly
+      </p>
+    </header>
+    <div class="action-cards">
+      <article class="card">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/00af33d933b7664d73fecac5f134217f2f63926bb273020f6e6d2e76c33f8289?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="Add New Model Icon" class="card-icon" />
+        <button class="action-button" (click)="addNewModel()">Add New Model</button>
+      </article>
+      <article class="card">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/d4f1669b4c7883c156f1e9658b0610fca56d55dc4706acfe00b68b71c31b533b?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="Compare Mortgage Icon" class="card-icon" />
+        <button class="action-button" (click)="compareMortgage()">Compare Mortgage</button>
+      </article>
+    </div>
+  </section>
+</div>
+<!-- <div class="containerMain">
+  <section class="container">
+    <h2 class="heading">All previous models</h2>
+    <hr class="separator" />
+    <div class="models-container">
+      <article class="model-card" tabindex="0" *ngFor="let model of models">
+        <img loading="lazy" [src]="model.imageUrl" class="model-image" [alt]="model.name + ' for ' + model.bank" />
+        <section class="model-details">
+          <h3 class="model-name">{{ model.name }}</h3>
+          <p class="bank-name">{{ model.bank }}</p>
+        </section>
+      </article>
+    </div>
+  </section>
+</div> -->

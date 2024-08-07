@@ -181,8 +181,8 @@ export class MortgageDetailsComponent {
       case monthly:
         return rate / 12;
       case daily:
-        const dailyRate = rate / 365;
-        const annualRate = Math.pow(1 + dailyRate, 365) - 1;
+        const dailyRate = rate / 365.25;
+        const annualRate = Math.pow(1 + dailyRate, 365.25) - 1;
         return Math.pow(1 + annualRate, 1 / 12) - 1;
 
       default:
@@ -348,10 +348,10 @@ export class MortgageDetailsComponent {
       
       currentDate.setMonth(month - 1);
       currentDate.setDate(1);
-      
       const daysInCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+      
+      
       const dailyInterest = interestPaid / daysInCurrentMonth;
-  
       for (let day = 1; day <= daysInCurrentMonth; day++) {
         totalAmount += dailyInterest;
         dailyPayments.push(Math.max(0, totalAmount));

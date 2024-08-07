@@ -3,11 +3,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { MortgageDetailsComponent } from './mortgage-details/mortgage-details.component';
 import { AddMortgageComponent } from './add-mortgage/add-mortgage.component';
 import { MortgageComparisonComponent } from './mortgage-comparison/mortgage-comparison.component';
+import { LoginComponent } from './login/login.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { authGuard } from './auth.guard';
+import { HomePageComponent } from './home-page/home-page.component';
 
 const routes: Routes = [
-  { path: 'mortgageDetails', component: MortgageDetailsComponent },
-  { path: 'addMortgage', component: AddMortgageComponent },
-  { path: 'compareMortgages', component: MortgageComparisonComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignUpComponent},
+  { path: 'home', component: HomePageComponent},
+  { path: 'mortgageDetails', component: MortgageDetailsComponent,canActivate: [authGuard]  },
+  { path: 'addMortgage', component: AddMortgageComponent ,canActivate: [authGuard] },
+  { path: 'compareMortgages', component: MortgageComparisonComponent,canActivate: [authGuard]  },
 ];
 
 @NgModule({

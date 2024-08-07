@@ -20,6 +20,7 @@ export class MortgageComparisonComponent {
   chartOptions2: any;
   chartOptions22: Highcharts.Options = {};
   chartOptions23:  Highcharts.Options = {};
+  chartOptionsPayment: Highcharts.Options = {};
 
   constructor(private mortgageService: MortgageDetailsService,private mortgageCalculatorService: MortgageCalculatorService) {}
 
@@ -95,6 +96,7 @@ export class MortgageComparisonComponent {
       }
     };
     this.populateInterestChartData();
+    this.populatePaymentChartData();
   }
   updateChartData(): void {
     const labels = this.mortgages.map((_, index) => `Loan ${index + 1}`);
@@ -376,7 +378,105 @@ export class MortgageComparisonComponent {
     
     console.log(series);
   }
-  
+
+  populatePaymentChartData(): void {
+    if (this.mortgages.length === 0) {
+        return;
+    }
+
+    // Find the mortgage with the longest term
+    const longestTermMortgage = this.mortgages.reduce((max, mortgage) => {
+        const termInMonths = (mortgage.loanTermYears || 0) * 12 + (mortgage.loanTermMonths || 0);
+        return termInMonths > max.term ? { mortgage, term: termInMonths } : max;
+    }, { mortgage: null as MortgageDetails | null, term: 0 });
+
+    if (!longestTermMortgage.mortgage) {
+        return;
+    }
+
+    const amortizationSchedule = this.mortgageCalculatorService.calculateAmortization(longestTermMortgage.mortgage);
+    let labels = amortizationSchedule.map(schedule => `Month ${schedule.month}`);
+
+    const series: Highcharts.SeriesOptionsType[] = this.mortgages.map((mortgage, index) => {
+        const schedule = this.mortgageCalculatorService.calculateAmortization(mortgage);
+        const data = schedule.map(item => {
+            return [item.month, Math.floor(item.paymentMade)];
+        });
+
+        return {
+            name: mortgage.modelName,
+            type: 'line',
+            data: data, // Use [x, y] format for data
+            color: this.getRandomColor(index),
+            dataLabels: {
+                enabled: false // Disable data labels by default
+            }
+        } as Highcharts.SeriesLineOptions;
+    });
+
+    this.chartOptionsPayment = {
+        title: {
+            text: 'Monthly Payment Made Over Time'
+        },
+        xAxis: {
+            categories: labels,
+            title: {
+                text: 'Months'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Payment Made'
+            },
+            min: 0
+        },
+        series: series,
+        tooltip: {
+            shared: true,
+            formatter: function() {
+                if (!this.points) {
+                    return '';
+                }
+                let tooltip = `<b>${this.x}</b><br/>`;
+                this.points.forEach(point => {
+                    if (point.series && point.series.color) {
+                        tooltip += `<span style="color:${point.series.color}">\u25CF</span> ${point.series.name}: ${point.y}<br/>`;
+                    }
+                });
+                return tooltip;
+            }
+        },
+        responsive: {
+            rules: [
+                {
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        },
+                        yAxis: {
+                            labels: {
+                                align: 'left'
+                            }
+                        },
+                        xAxis: {
+                            labels: {
+                                align: 'center'
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    };
+
+    console.log(series);
+}
+
 }
 // ngOnInit(): void {
   //   // Mock data

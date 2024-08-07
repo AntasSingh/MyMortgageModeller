@@ -1,4 +1,4 @@
-<div class="login-container">
+<!-- <div class="login-container">
     <div class="p-grid p-justify-center">
       <div class="p-col-10 p-md-6 p-lg-4">
         <div class="card">
@@ -20,4 +20,53 @@
       </div>
     </div>
   </div>
-  
+   -->
+
+   <!-- <main class="login-container">
+    <header class="login-header">
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/10ccfb4c42967173bb4fcb97472e10768c648b20fa7c57814f92efefec4639c3?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="My Mortgage Modeller Logo" class="logo-image" />
+      <h1 class="logo-text">My Mortgage <br /> Modeller</h1>
+    </header>
+    <section class="login-form-container">
+      <form (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" name="username" [(ngModel)]="username" class="form-input" placeholder="@username" required>
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" name="password" [(ngModel)]="password" class="form-input" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="login-button">LOGIN</button>
+      </form>
+      <p class="signup-text">
+        Don't have an account? <a href="#" class="signup-link">Sign Up</a>
+      </p>
+    </section>
+  </main> -->
+
+  <div class="login-container">
+    <main class="login-content">
+      <header class="login-header">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/10ccfb4c42967173bb4fcb97472e10768c648b20fa7c57814f92efefec4639c3?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="My Mortgage Modeller Logo" class="logo-image" />
+        <h1 class="logo-text">My Mortgage <br /> Modeller</h1>
+      </header>
+      <section class="login-form-container">
+        <div class="login-form">
+          <div class="form-group">
+            <label for="username" class="form-label">User Email</label>
+            <input type="text" id="username" [(ngModel)]="username" class="form-input" [ngClass]="{'input-error': showError}" placeholder="@username">
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" [(ngModel)]="password" class="form-input" [ngClass]="{'input-error': showError}" placeholder="Enter password">
+          </div>
+          <button (click)="onSubmit()" class="login-button" [disabled]="!username || !password">LOGIN</button>
+          <p *ngIf="message" class="error-message">{{ message }}</p>
+        </div>
+        <p class="signup-text">
+          Don't have an account? <a href="#" class="signup-link">Sign Up</a>
+        </p>
+      </section>
+    </main>
+  </div>

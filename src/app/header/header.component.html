@@ -1,0 +1,29 @@
+<header class="header">
+    <div class="logo-container">
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/abc168a710c85d829b2c47b1e0469f787e71f545913b1bb58baf208a763d6f44?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="Mortgage Modeller Logo" class="logo-image" />
+      <h1 class="logo-text">
+        {{ title }}
+      </h1>
+    </div>
+    <nav class="navigation">
+      <a href="/home" class="nav-link">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a01356ba1a2c533e792019e1a7f5c5afab0e63e61fda1bcae4355d22d075834b?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="" class="nav-icon" />
+        <span>Home</span>
+      </a>
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/892f2116665219ecc50f7ba7350f4d9cdf118ae90550313f8502daf086501698?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="" class="nav-separator" />
+      <button (click)="open()" class="profile-button">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/af28a58144b729fca4a90cb5f80ea6bc0a7fd30d573cbd68d5b501da534a1a57?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="User Profile" class="profile-image" />
+      </button>
+    </nav>
+  </header>
+
+  <!-- Modal Structure -->
+<div class="modal" *ngIf="isVisible">
+    <div class="modal-content">
+      <span class="close" (click)="close()">&times;</span>
+      <p>Are you sure you want to logout?</p>
+      <button (click)="onLogout()" class="modal-button">Logout</button>
+      <button (click)="close()" class="modal-button">Cancel</button>
+    </div>
+  </div>
+  

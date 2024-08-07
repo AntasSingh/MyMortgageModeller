@@ -23,6 +23,10 @@ import { CarouselModule } from 'primeng/carousel';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { HighchartsAreaChartComponent } from './highcharts-area-chart/highcharts-area-chart.component';
 import { HighchartsLTVChartComponent } from './highcharts-ltv-chart/highcharts-ltv-chart.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HomePageComponent } from './home-page/home-page.component';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
@@ -34,7 +38,10 @@ import { HighchartsLTVChartComponent } from './highcharts-ltv-chart/highcharts-l
     AddMortgageComponent,
     MortgageComparisonComponent,
     HighchartsAreaChartComponent,
-    HighchartsLTVChartComponent
+    HighchartsLTVChartComponent,
+    SignUpComponent,
+    HomePageComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +59,8 @@ import { HighchartsLTVChartComponent } from './highcharts-ltv-chart/highcharts-l
     DialogModule,
     BrowserAnimationsModule,
     CarouselModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
