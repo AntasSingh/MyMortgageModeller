@@ -40,6 +40,39 @@
     </div>
   </div>
 </div>
+<div class="grid-container">
+  <div class="grid-item" (click)="expandItem(0)">Item 1</div>
+  <div class="grid-item" (click)="expandItem(1)">Item 2</div>
+  <div class="grid-item" (click)="expandItem(2)">Item 3</div>
+  <div class="grid-item" (click)="expandItem(3)">Item 4</div>
+</div>
+<div class="grid-container">
+  <div 
+    class="grid-item" 
+    [class.expanded]="isExpanded(0)" 
+    (click)="expandItem(0)">
+    Item 1
+  </div>
+  <div 
+    class="grid-item" 
+    [class.expanded]="isExpanded(1)" 
+    (click)="expandItem(1)">
+    Item 2
+  </div>
+  <div 
+    class="grid-item" 
+    [class.expanded]="isExpanded(2)" 
+    (click)="expandItem(2)">
+    Item 3
+  </div>
+  <div 
+    class="grid-item" 
+    [class.expanded]="isExpanded(3)" 
+    (click)="expandItem(3)">
+    Item 4
+  </div>
+</div>
+
 
 <p-dialog header="Add New Mortgage Model" [(visible)]="displayModal" [modal]="true" [closable]="false" [responsive]="true" [style]="{width: '50vw'}">
   <form (ngSubmit)="onSubmit()">

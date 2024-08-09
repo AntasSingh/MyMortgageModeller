@@ -1,11 +1,4 @@
-<div class="header">
-  <img src="/assets/images/mortgageImage.jpg" alt="Logo" class="logo">
-  <div class="title">My Mortgage Modeller</div>
-  <div class="profile-section">
-    <i class="pi pi-home icon" [routerLink]="['/addMortgage']"></i>
-    <p-avatar label="U" styleClass="mr-2" size="large"></p-avatar>
-  </div>
-</div>
+<app-header></app-header>
 <div class="content">
   <div class="box">
     <div *ngIf="mortgageName">
@@ -13,15 +6,16 @@
       <!-- Conditionally display bank name if it exists -->
       <p *ngIf="mortgageName.bankName">Bank Name: {{ mortgageName.bankName }}</p>
     </div>
+    <div class="boxInner">
     <p>Enter your details:</p>
     <div class="p-fluid">
       <div class="p-field">
-        <label for="totalCost">Total cost of the house</label>
+        <label for="totalCost">Total cost of the house*</label>
         <div><small>Enter the total purchase price of the property.</small></div>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon">£</span>
           <input id="totalCost" type="number" pInputText [(ngModel)]="totalCost"
-            placeholder="Enter total cost of the house">
+            placeholder="Enter total cost of the house" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0" (input)="onInputChange()">
         </div>
       </div>
       <div class="p-field">
@@ -30,25 +24,25 @@
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon">£</span>
           <input id="preprocessingCost" type="number" pInputText [(ngModel)]="preprocessingCost"
-            placeholder="Enter processing charges for the mortgage">
+            placeholder="Enter processing charges for the mortgage" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0">
         </div>
       </div>
       <div class="p-field">
-        <label for="downPayment">Down Payment</label>
+        <label for="downPayment">Down Payment*</label>
         <div><small>Enter the amount you are paying upfront for the house.</small></div>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon">£</span>
           <input id="downPayment" type="number" pInputText [(ngModel)]="downPayment"
-            placeholder="Enter down payment paid for the house">
+            placeholder="Enter down payment paid for the house" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0" (input)="onInputChange()">
         </div>
       </div>
       <div class="p-field">
-        <label for="interestRate">Intrest Rate</label>
+        <label for="interestRate">Intrest Rate*</label>
         <div><small>Enter the annual interest rate for the mortgage.</small></div>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon">%</span>
           <input id="interestRate" type="number" pInputText [(ngModel)]="interestRate"
-            placeholder="Enter interest rate for the mortgage">
+            placeholder="Enter interest rate for the mortgage" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0" (input)="onInputChange()">
         </div>
       </div>
       <div class="p-field">
@@ -58,30 +52,30 @@
           placeholder="Select Compounding Period"></p-dropdown>
       </div>
       <div class="p-field">
-        <label for="loanTerm">Loan Term:</label>
+        <label for="loanTerm">Loan Term:*</label>
         <div><small>Enter the duration of the loan in years and months.</small></div>
         <div class="loan-term">
           <span class="p-inputgroup-addon">Years</span>
-          <input id="loanTermYears" type="number" pInputText [(ngModel)]="loanTermYears" placeholder="Years">
+          <input id="loanTermYears" type="number" pInputText [(ngModel)]="loanTermYears" placeholder="Years" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0" (input)="onInputChange()">
           <span class="p-inputgroup-addon">Months</span>
-          <input id="loanTermMonths" type="number" pInputText [(ngModel)]="loanTermMonths" placeholder="Months">
+          <input id="loanTermMonths" type="number" pInputText [(ngModel)]="loanTermMonths" placeholder="Months" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0" (input)="onInputChange()">
         </div>
       </div>
       <div class="p-field">
         <div><label>Do you want to add offset option?</label></div>
-        <div><label><p>What is an offset mortgage?</p></label></div>
-        <div><p>Use your savings to reduce the amount of interest you pay with an offset mortgage.</p></div>
-        <div>
-        <small>An offset mortgage is a type of mortgage that is linked to one of your savings accounts.The money in your savings isn’t used to pay off your mortgage. Instead, it’s used to lower the total interest you’ll be charged on your repayments each month.
-         Even though it could make your mortgage repayments cheaper, you won’t earn any interest on those savings your mortgage is ‘offset’ against.
-        </small></div>
+        <aside class="info-box margin-class">
+          <h3 class="info-title">What is offset mortgage?</h3>
+          <p class="info-text">
+            An offset mortgage is a type of mortgage that is linked to one of your savings accounts. The money in your savings isn't used to pay off your mortgage. Instead, it's used to lower the total interest you'll be charged on your repayments each month. Even though it could make your mortgage repayments cheaper, you won't earn any interest on those savings your mortgage is 'offset' against.
+          </p>
+        </aside>
         <div class="p-formgroup-inline">
-          <div class="p-field-radiobutton">
+          <div class="p-field-radiobutton margin-class">
             <p-radioButton name="offsetOption" value="yes" [(ngModel)]="offsetOption"
               inputId="offsetYes"></p-radioButton>
             <label for="offsetYes">Yes</label>
           </div>
-          <div class="p-field-radiobutton">
+          <div class="p-field-radiobutton margin-class">
             <p-radioButton name="offsetOption" value="no" [(ngModel)]="offsetOption" inputId="offsetNo"></p-radioButton>
             <label for="offsetNo">No</label>
           </div>
@@ -90,55 +84,57 @@
       <div class="p-field" *ngIf="offsetOption === 'yes'">
 
         <div class="p-field" *ngIf="offsetOption === 'yes'">
-          <label for="offsetType">Offset Type</label>
+          <label for="offsetType" class="margin-class">Offset Type</label>
           <div><small>Choose the type of offset you prefer.</small></div>
-          <div><small>In this type of offset you fix an amount at the start of the mortgage term</small></div>
+          <div class="margin-class"><small>In this type of offset you fix an amount at the start of the mortgage term</small></div>
           <div class="p-field-radiobutton">
             <p-radioButton name="offsetTypeOption" value="fixed" [(ngModel)]="offsetTypeOption"
               inputId="offsetTypeFixed"></p-radioButton>
             <label for="offsetTypeFixed">Fixed Amount</label>
           </div>
-          <div class="p-field" *ngIf="offsetTypeOption === 'fixed'">
+          <div class="p-field margin-class" *ngIf="offsetTypeOption === 'fixed'">
             <!-- <label for="fixedAmount">Fixed Amount</label> -->
             <div><small>Enter the fixed amount to offset against your mortgage.</small></div>
             <div class="p-inputgroup">
               <span class="p-inputgroup-addon">£</span>
               <input id="fixedAmount" type="number" pInputText [(ngModel)]="fixedAmount"
-                placeholder="Enter fixed amount">
+                placeholder="Enter fixed amount" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0">
             </div>
           </div>
-          <div><small>In this type of offset you fix an amount at the start of the mortgage term and to this account add some fixed amount each month</small></div>
           <div class="p-field-radiobutton">
             <p-radioButton name="offsetTypeOption" value="monthly" [(ngModel)]="offsetTypeOption"
               inputId="offsetTypeMonthly"></p-radioButton>
             <label for="offsetTypeMonthly">Monthly Deposit</label>
           </div>
-
-          
-
-          <div class="p-field" *ngIf="offsetTypeOption === 'monthly'">
+          <div class="margin-class"><small>In this type of offset you fix an amount at the start of the mortgage term and to this account add some fixed amount each month</small></div>
+          <div class="p-field margin-class" *ngIf="offsetTypeOption === 'monthly'">
             <label for="fixedAmount">Initial Amount</label>
             <div><small>Enter the initial amount to deposit to your offset account.</small></div>
-            <div class="p-inputgroup">
+            <div class="p-inputgroup margin-class">
               <span class="p-inputgroup-addon">£</span>
               <input id="fixedAmount" type="number" pInputText [(ngModel)]="fixedAmount"
-                placeholder="Enter initial amount">
+                placeholder="Enter initial amount" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0">
             </div>
 
             <label for="monthlyAddition">Monthly Addition</label>
             <div><small>Enter the amount you want to add to your offset account each month.</small></div>
-            <div class="p-inputgroup">
+            <div class="p-inputgroup margin-class">
               <span class="p-inputgroup-addon">£</span>
               <input id="monthlyAddition" type="number" pInputText [(ngModel)]="monthlyAddition"
-                placeholder="Enter monthly addition amount">
+                placeholder="Enter monthly addition amount" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" min="0">
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="p-field">
-      <button class="p-button p-button-primary" (click)="calculatePayment()">Calculate Payment</button>
+      <button class="calculate-button" type="submit" label="Submit" [disabled]="!isFormValid || loading" (click)="calculatePayment()">Calculate Payment
+          <p-progressSpinner *ngIf="loading" ariaLabel="loading" [style]="{width: '20px', height: '20px'}" ></p-progressSpinner>
+      </button>
+      <!-- <button class="p-button p-button-primary" (click)="calculatePayment()">Calculate Payment</button> -->
     </div>
+    <div><small>This button will become active once all required fields(*) have been completed and contain non-negative values. </small></div>
+  </div>
     <div *ngIf="monthlyPayment || totalPayment" class="result-container">
       <h3>Results:</h3>
       <p>Monthly Payment: £{{ monthlyPayment }}</p>
@@ -202,3 +198,4 @@
     </div>
   </div>
 </div>
+<p-toast></p-toast>

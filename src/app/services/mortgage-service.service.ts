@@ -12,9 +12,9 @@ export class MortgageDetailsService {
   constructor() {}
 
   // Add a new mortgage detail to the list
-  addMortgageDetails(mortgageDetails: MortgageDetails): void {
-    this.mortgageDetailsList.push(mortgageDetails);
-    console.log(this.mortgageDetailsList);
+  addMortgageDetails(mortgageDetails: MortgageDetails[]): void {
+    this.mortgageDetailsList=mortgageDetails;
+    //console.log(this.mortgageDetailsList);
   }
 
   // Retrieve the list of mortgage details

@@ -1,11 +1,4 @@
-<div class="header">
-    <img src="/assets/images/mortgageImage.jpg" alt="Logo" class="logo">
-    <div class="title">My Mortgage Modeller</div>
-    <div class="profile-section">
-      <i class="pi pi-home icon" [routerLink]="['/addMortgage']"></i>
-      <p-avatar label="U" styleClass="mr-2" size="large"></p-avatar>
-    </div>
-</div>
+<app-header></app-header>
 <!-- <div class="comparison-container">
     <p-carousel
       [value]="mortgages"
@@ -87,6 +80,7 @@
       </ng-template>
     </p-carousel>
   </div> -->
+  <div class="carousel-container">
   <div class="comparison-container">
     <p-carousel 
       [value]="mortgages" 
@@ -114,43 +108,197 @@
       </ng-template>
     </p-carousel>
   </div>
-<!-- mortgage-comparison.component.html -->
-<div>
-  <h1>Mortgage Comparison</h1>
-  <div class="chart-container">
-    <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
-  </div>
 </div>
 <!-- mortgage-comparison.component.html -->
+<!-- <div class="chart-display"> -->
+  <!-- <div class="chart-container">
+      <p-chart type="bar" [data]="chartData" [options]="chartOptions"></p-chart>
+    </div> -->
+  <!-- <div>
+    <h1>Mortgage Comparison</h1>
+    <div class="chart-container">
+      <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+        style="width: 100%; height: 600px; display: block;"></highcharts-chart>
+    </div>
+  </div>
+  
+  <div class="chart-container">
+    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions22"
+      style="width: 100%; height: 600px; display: block;"></highcharts-chart>
+  </div>
+  
+  
+  
+  <div class="chart-container">
+    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions23"
+      style="width: 100%; height: 600px; display: block;"></highcharts-chart>
+  </div>
+  
+  <div class="chart-container">
+    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptionsPayment"
+      style="width: 100%; height: 600px; display: block;"></highcharts-chart>
+  </div> -->
+  
+  <!-- </div> -->
+  
+  <!-- <div class="chart-grid">
+    <div class="chart-item chart-item-1 ">
+      <div class="chart-card">
+      <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+        style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+    </div>
+    <div class="chart-item chart-item-2">
+      <div class="chart-card">
+      <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions22"
+        style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+    </div>
+    <div class="chart-item chart-item-3">
+      <div class="chart-card">
+      <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions23"
+        style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+    </div>
+    <div class="chart-item chart-item-4">
+      <div class="chart-card">
+      <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptionsPayment"
+        style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+    </div>
+  </div> -->
+  
+  
+  <!-- mortgage-comparison.component.html -->
 <!-- <div>
   <h1>Mortgage Comparison</h1>
   <div class="chart-container">
   <p-chart type="bar" [data]="chartData2" [options]="chartOptions"></p-chart>
 </div>
 </div> -->
-<div class="chart-container">
-<highcharts-chart
-  [Highcharts]="Highcharts"
-  [options]="chartOptions22"
-  style="width: 100%; height: 600px; display: block;"
-></highcharts-chart>
+
+<!-- <div class="chart-grid">
+  <div class="chart-item chart-item-1">
+    <div class="chart-card">
+      <div class="chart-content">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+          style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+      <div class="overlay">
+        Click to Expand
+      </div>
+    </div>
+  </div>
+  <div class="chart-item chart-item-2">
+    <div class="chart-card">
+      <div class="chart-content">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions22"
+          style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+      <div class="overlay">
+        Click to Expand
+      </div>
+    </div>
+  </div>
+  <div class="chart-item chart-item-3">
+    <div class="chart-card">
+      <div class="chart-content">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions23"
+          style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+      <div class="overlay">info
+        Click to Expand
+      </div>
+    </div>
+  </div>
+  <div class="chart-item chart-item-4">
+    <div class="chart-card">
+      <div class="chart-content">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptionsPayment"
+          style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+      <div class="overlay">
+        Click to Expand
+      </div>
+    </div>
+  </div>
+</div> -->
+<aside class="info-box margin-class">
+  <h3 class="info-title">Graphical Comparison of the loans</h3>
+  <h4 class="info-title">The Loan Breakdown Chart</h4>
+  <p class="info-text">
+    Chart allows for the comparison of individual components across different mortgage models, including the mortgage amount, down payment, interest paid, and processing charges. This comparison makes it easier to see which model will cost more and provides a clear breakdown of the costs associated with each option.
+  </p>
+  <h4 class="info-title">The Principal Over Time Chart</h4>
+  <p class="info-text">
+    Chart illustrates the remaining principal balance over the duration of the loan. Each line in the chart represents a different loan model. Users have the ability to click and expand each line for a more detailed view and can hover over the chart to access additional information.
+  </p>
+  <h4 class="info-title">The Cumulative Interest Paid Over Time Chart</h4>
+  <p class="info-text">
+    Chart displays the total interest paid over the course of the loan for each loan model, with each model represented by a distinct line. This chart aids in understanding how interest accumulates for each mortgage model. Users can click and expand each line for a more detailed view and hover over the chart to access additional information.  </p>
+  <h4 class="info-title">The Monthly Payment Made Over Time Chart</h4>
+  <p class="info-text">
+    Chart illustrates the monthly payments required throughout the loan period. Each line represents a different loan model, allowing for a comparative analysis of the monthly repayment amounts for each mortgage option. Users can click and expand each line for a more detailed view and hover over the chart to access additional information.
+  </p>
+</aside>
+<div class="chart-grid">
+  <div class="chart-item chart-item-1">
+    <div class="chart-card" (click)="openModal(1)">
+      <div class="chart-content">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+          style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+      <div class="overlay">
+        Click to Expand
+      </div>
+    </div>
+  </div>
+  <div class="chart-item chart-item-2">
+    <div class="chart-card" (click)="openModal(2)">
+      <div class="chart-content">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions22"
+          style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+      <div class="overlay">
+        Click to Expand
+      </div>
+    </div>
+  </div>
+  <div class="chart-item chart-item-3">
+    <div class="chart-card" (click)="openModal(3)">
+      <div class="chart-content">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions23"
+          style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+      <div class="overlay">
+        Click to Expand
+      </div>
+    </div>
+  </div>
+  <div class="chart-item chart-item-4">
+    <div class="chart-card" (click)="openModal(4)">
+      <div class="chart-content">
+        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptionsPayment"
+          style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+      </div>
+      <div class="overlay">
+        Click to Expand
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="chart-container">
-  <highcharts-chart
-    [Highcharts]="Highcharts"
-    [options]="chartOptions23"
-    style="width: 100%; height: 600px; display: block;"
-  ></highcharts-chart>
+<!-- Modal Template -->
+<p-dialog header="Chart View" [(visible)]="displayModal" [modal]="true" [closable]="true" [responsive]="true" [style]="{width: '80vw', height: '80vh'}">
+  <div class="modal-chart-container">
+    <highcharts-chart *ngIf="selectedChart === 1" [Highcharts]="Highcharts" [options]="chartOptions"
+      style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+    <highcharts-chart *ngIf="selectedChart === 2" [Highcharts]="Highcharts" [options]="chartOptions22"
+      style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+    <highcharts-chart *ngIf="selectedChart === 3" [Highcharts]="Highcharts" [options]="chartOptions23"
+      style="width: 100%; height: 100%; display: block;"></highcharts-chart>
+    <highcharts-chart *ngIf="selectedChart === 4" [Highcharts]="Highcharts" [options]="chartOptionsPayment"
+      style="width: 100%; height: 100%; display: block;"></highcharts-chart>
   </div>
-  
-  <div class="chart-container">
-    <highcharts-chart
-      [Highcharts]="Highcharts"
-      [options]="chartOptionsPayment"
-      style="width: 100%; height: 600px; display: block;"
-    ></highcharts-chart>
-    </div>
-  
-  
-  
+</p-dialog>
+

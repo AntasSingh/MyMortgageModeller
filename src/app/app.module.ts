@@ -27,7 +27,10 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HeaderComponent } from './header/header.component';
-
+import { ToastModule } from 'primeng/toast';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CheckboxModule } from 'primeng/checkbox';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -60,7 +63,11 @@ import { HeaderComponent } from './header/header.component';
     BrowserAnimationsModule,
     CarouselModule,
     HighchartsChartModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastModule,
+    ProgressSpinnerModule,
+    CheckboxModule,
+    MultiSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

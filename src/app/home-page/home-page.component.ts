@@ -1,42 +1,105 @@
 import { Component } from '@angular/core';
+import { Mortgage, MortgageDetails } from '../Models/mortgage.model';
+import { Router } from '@angular/router';
+import { AddMortgageDetailsService } from '../services/add-mortgage-details.service';
+import { MortgageModelService } from '../services/mortgage-model.service';
+import { MessageService } from 'primeng/api';
+import { MortgageDetailsService } from '../services/mortgage-service.service';
 interface Model {
   id: number;
   name: string;
   bank: string;
-  imageUrl: string;
 }
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  styleUrl: './home-page.component.scss',
+  providers: [MessageService] 
 })
 export class HomePageComponent {
 
   models: Model[] = [];
+  modelName: string = '';
+  bankName: string = '';
+  displayModal: boolean = false;
+  isModelNameUnique: boolean = true;
+  loading: boolean = false;
+  uerMortgageDetails: MortgageDetails[] = []; 
+  selectedModels: MortgageDetails[] = [];
+  compareModalVisible = false;
+  modelOptions: { name: string; displayName: string; }[] = []; // Options for the multiselect
+
+  imageUrl= "https://cdn.builder.io/api/v1/image/assets/TEMP/069649a922986d4c9212398e51dcee2ddaff6b376ee995d33b4e7f382f70d7a5?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25"
+  constructor(private router: Router, private mortgageService: AddMortgageDetailsService,private mortgageModelService: MortgageModelService,private messageService: MessageService,private mortgageDetailsService: MortgageDetailsService){}
   
   ngOnInit() {
-    this.models = [
-      { id: 1, name: "Model-1", bank: "Bank-A", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/069649a922986d4c9212398e51dcee2ddaff6b376ee995d33b4e7f382f70d7a5?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" },
-      { id: 2, name: "Model-2", bank: "Bank-B", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/28ff7ec3819e69f5973f312307f26611b00a1a7e6d1066c94b7f7c472e903f93?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" },
-      { id: 3, name: "Model-3", bank: "Bank-C", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/ddd52c7d399ecfb0e0661887e031a3ce5e82ad6f46b33dab0ae9d6afff994017?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" },
-      { id: 4, name: "Model-4", bank: "Bank-D", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/fbe7497f42345e4f07673d9d365d53b26c049f5c7b1cbb4eab93ec3b16cc7261?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" },
-      { id: 5, name: "Model-5", bank: "Bank-E", imageUrl: "https://cdn.builder.io/api/v1/image/assets/TEMP/15ba9cc2d8499206ed50e5e52708a0d6679383f6b6f171f384d6c8781afd9799?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" },
-    ];
+    this.loadMortgageDetails();
+    this.modelOptions = this.uerMortgageDetails.map(model => ({
+      name: model.modelName,
+      displayName: `${model.modelName} - ${model.bankName || 'Unknown Bank'}`
+    }));
   }
-
-  deleteModel(id: number): void {
-    this.models = this.models.filter(model => model.id !== id);
-  }
-
-  editModel(id: number): void {
-    console.log(`Edit model with id: ${id}`);
-  }
-  
   addNewModel(): void {
-    console.log('Add New Model clicked');
+    this.displayModal = true;
   }
 
   compareMortgage(): void {
+    this.compareModalVisible = true;
     console.log('Compare Mortgage clicked');
+  }
+
+  onSubmit() {
+    const newMortgage = new Mortgage(this.modelName, this.bankName);
+    this.mortgageService.setMortgage(newMortgage);
+    this.router.navigate(['/mortgageDetails']);
+    this.displayModal = false;
+  }
+
+  loadMortgageDetails(): void {
+    this.loading = true;
+    this.mortgageModelService.getMortgageDetails().subscribe({
+      next: (details: MortgageDetails[]) => {
+        this.uerMortgageDetails =details;
+      },
+      error: (error: any) => {
+        console.error('Error loading mortgage details:', error);
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  onModelNameChange(): void {
+    this.isModelNameUnique = !this.models.some(model => model.name.toLowerCase() === this.modelName.toLowerCase());
+    console.log(this.models);
+  }
+
+  editModel(model: MortgageDetails): void {
+    this.loading =true;
+    this.router.navigate(['/mortgageDetails']);
+    this.mortgageService.setEditModel(model);
+    this.loading = false;
+  }
+
+  deleteModel(model: MortgageDetails): void {
+    this.mortgageModelService.deleteModel(model.modelName).subscribe({
+      next: (response) => {
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Mortgage deleted successfully!'});
+        this.uerMortgageDetails = this.uerMortgageDetails.filter(detail => detail.modelName !== model.modelName);
+      },
+      error: (error) => {
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error deleting model.'});
+      }
+    });
+  }
+
+
+  compareSelectedModels(): void {
+    // Handle comparison logic here
+    console.log('Comparing selected models:', this.selectedModels);
+    this.mortgageDetailsService.addMortgageDetails(this.selectedModels);
+    this.router.navigate(['/compareMortgages']);
+    this.compareModalVisible = false; // Close the modal
   }
 }

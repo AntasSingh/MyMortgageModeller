@@ -36,17 +36,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #A9C25D;
+    //background-color: #A9C25D;
     height: 100%; /* Ensure the content area takes the full height of the viewport */
   }
   
   .box {
-    background-color: #F6EEC0;
+    background-color: #F7F9FC;
     padding: 2rem 2rem 2rem 2rem;
     margin: 2rem 2rem 2rem 2rem;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 70%; /* Adjust as needed */
+  }
+
+  .boxInner {
+    background-color: #ffffff;
+    padding: 2rem 2rem 2rem 2rem;
+    //margin: 2rem 2rem 2rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Adjust as needed */
   }
   
   .p-fluid .p-field {
@@ -77,4 +86,77 @@
   }
   
   
-  
+  /* Disable the scroll for all number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Hides the spin buttons */
+    margin: 0; /* Removes any margin */
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Hides the spin buttons in Firefox */
+}
+
+.info-title {
+  color: rgba(70, 87, 233, 0.6);
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.info-text {
+  color: rgba(70, 87, 233, 0.6);
+  font-weight: 400;
+  margin: 0;
+}
+
+.info-box {
+  border-radius: 12px;
+  background-color: #f7f9fc;
+  margin-top: 14px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+@media (max-width: 991px) {
+  .info-box {
+    max-width: 100%;
+  }
+}
+
+small{
+  color: rgba(70, 87, 233, 0.6);
+}
+
+.margin-class{
+  margin-bottom: 1rem;
+}
+
+.calculate-button {
+  text-shadow: 0 1px 1px rgba(5, 5, 35, 0.2);
+  border-radius: 12px;
+  background-color: #4657e9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 14px 12px;
+  margin-right: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  overflow: hidden;
+}
+
+.calculate-button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.spinner-container {
+  top: 50%;
+  left: 50%;
+  width: 20px; /* Adjust size as needed */
+  height: 20px;
+  transform: translate(-50%, -50%);
+}

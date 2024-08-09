@@ -53,4 +53,14 @@ export class AddMortgageComponent implements OnInit {
   navigateToCompare(): void {
     this.router.navigate(['/compareMortgages']);
   }
+
+  expandedItem: number | null = null;
+
+  expandItem(index: number) {
+    this.expandedItem = this.expandedItem === index ? null : index;
+  }
+
+  isExpanded(index: number): boolean {
+    return this.expandedItem === index;
+  }
 }

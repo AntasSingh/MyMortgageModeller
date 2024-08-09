@@ -128,8 +128,9 @@
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
     margin-top: 24px;
+    padding-bottom: 5rem;
   }
   
   .model-card {
@@ -190,4 +191,129 @@
     display: flex;
     justify-content: center;
     width: 100%;
+  }
+
+  .model-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    transition: border-color 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+  
+  .model-input:focus {
+    outline: none;
+    border-color: #4657e9;
+  }
+
+  .modal-button {
+    text-shadow: 0 1px 1px rgba(5, 5, 35, 0.2);
+    border-radius: 12px;
+    background-color: #4657e9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 14px 12px;
+    margin-right: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .modal-button-cancel {
+    text-shadow: 0 1px 1px rgba(5, 5, 35, 0.2);
+    border-radius: 12px;
+    background-color: #56717D;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 14px 12px;
+    margin-right: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .modal-button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+  }
+
+  .loader-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8); /* Optional: Adds a semi-transparent background */
+    z-index: 1000; /* Ensures the loader is above other content */
+  }
+
+  .error-message {
+    color: red;
+    font-size: 0.875rem; /* Smaller font size for error messages */
+    margin-top: 0.25rem; /* Space between input field and error message */
+  }
+
+  .model-card {
+    position: relative;
+    overflow: hidden; /* Ensure buttons do not overflow the card */
+  }
+  
+  .actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .model-card:hover .actions {
+    opacity: 1;
+  }
+  
+  .action-button2 {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-button {
+    background-color: #4657E9; /* Blue for edit */
+  }
+  
+  .delete-button {
+    background-color: #dc3545; /* Red for delete */
+  }
+  
+  .edit-button:hover {
+    background-color: #0056b3; /* Darker blue */
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333; /* Darker red */
   }

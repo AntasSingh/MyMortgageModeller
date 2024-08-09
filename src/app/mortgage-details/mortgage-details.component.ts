@@ -6,6 +6,8 @@ import { BaseChartDirective } from 'ng2-charts';
 import { MortgageDetailsService } from '../services/mortgage-service.service';
 import { Mortgage, MortgageDetails } from '../Models/mortgage.model';
 import { AddMortgageDetailsService } from '../services/add-mortgage-details.service';
+import { MortgageModelService } from '../services/mortgage-model.service';
+import { MessageService } from 'primeng/api';
 
 interface AmortizationSchedule {
   month: number;
@@ -16,7 +18,8 @@ interface AmortizationSchedule {
 @Component({
   selector: 'app-mortgage-details',
   templateUrl: './mortgage-details.component.html',
-  styleUrl: './mortgage-details.component.scss'
+  styleUrl: './mortgage-details.component.scss',
+  providers: [MessageService] 
 })
 export class MortgageDetailsComponent {
 
@@ -50,8 +53,11 @@ export class MortgageDetailsComponent {
   chartOptions: ChartOptions = {};
   amortizationSchedule: AmortizationSchedule[] = [];
   mortgageName!: Mortgage;
+  isFormValid: boolean = false;
+  loading: boolean = false;
+  editMode: boolean = false;
 
-  constructor(private mortgageDetailsService: MortgageDetailsService, private mortgageService: AddMortgageDetailsService) {
+  constructor( private mortgageService: AddMortgageDetailsService,private mortgageModelService: MortgageModelService,private messageService: MessageService) {
     this.chartOptions = {
       responsive: true,
       scales: {
@@ -111,15 +117,55 @@ export class MortgageDetailsComponent {
     if (mortgage) {
       this.mortgageName = mortgage;
     } else {
-      // Handle the case when no mortgage data is available
       console.error('No mortgage data available');
     }
+    const editModelDetail = this.mortgageService.getEditModel();
+    if(editModelDetail){
+      this.editMode = true;
+      this.totalCost = editModelDetail.totalCost;
+      this.offsetOption = editModelDetail.offsetOption ? 'yes' : 'no';
+      this.fixedAmount = editModelDetail.fixedAmount || 0;
+      this.monthlyAddition = editModelDetail.monthlyAdditionOffset || 0;
+      this.downPayment = editModelDetail.downPayment;
+      this.interestRate = editModelDetail.interestRate;
+      this.loanTermYears = editModelDetail.loanTermYears;
+      this.loanTermMonths = editModelDetail.loanTermMonths;
+      this.loanAmount = editModelDetail.loanAmount;
+      this.totalInterestPaid = editModelDetail.totalInterestPaid;
+      this.monthlyInterestRate = editModelDetail.monthlyInterestRate;
+      this.compoundingPeriod = editModelDetail.compoundingPeriod;
+      this.monthlyPayment = editModelDetail.monthlyPayment;
+      this.totalPayment = editModelDetail.totalPayment;
+      this.preprocessingCost = editModelDetail.preprocessingCost;
+      this.mortgageName = { modelName: editModelDetail.modelName, bankName: editModelDetail.bankName || '' };
+      setTimeout(() => {
+        this.calculatePayment();
+      }, 0);
+    }
+  }
+  onFocusInput(event: FocusEvent): void {
+    const target = event.target as HTMLInputElement;
+    target.addEventListener('wheel', this.preventScroll);
+  }
+
+  // Re-enable scroll when input field loses focus
+  onBlurInput(event: FocusEvent): void {
+    const target = event.target as HTMLInputElement;
+    target.removeEventListener('wheel', this.preventScroll);
+  }
+
+  // Function to prevent scroll
+  private preventScroll(event: Event): void {
+    event.preventDefault();
   }
   calculatePayment() {
     if (!this.totalCost || !this.downPayment || !this.interestRate ||
       (!this.loanTermYears && !this.loanTermMonths)) {
       alert('Please fill in all fields.');
       return;
+    }
+    if(!this.preprocessingCost){
+      this.preprocessingCost =0;
     }
     const totalLoanTermMonths = (this.loanTermYears || 0) * 12 + (this.loanTermMonths || 0);
     this.loanTerm = totalLoanTermMonths;
@@ -138,8 +184,10 @@ export class MortgageDetailsComponent {
       this.monthlyPayment = parseFloat(monthlyPayment.toFixed(2));
       // Calculate total payment
       this.totalInterestPaid = (monthlyPayment * numberOfPayments) - this.loanAmount;
+      
       const totalPayment = (monthlyPayment * numberOfPayments) + this.downPayment + this.preprocessingCost;
       this.totalPayment = parseFloat(totalPayment.toFixed(2));
+      this.monthlyPayment= parseFloat(this.monthlyPayment.toFixed(2));
 
       const newMortgageDetails = new MortgageDetails();
       newMortgageDetails.totalCost = this.totalCost;
@@ -162,10 +210,15 @@ export class MortgageDetailsComponent {
       newMortgageDetails.bankName = this.mortgageName.bankName || undefined;
 
       // Add the new MortgageDetails object to the MortgageDetailsService
-      this.mortgageDetailsService.addMortgageDetails(newMortgageDetails);
-
+      //this.mortgageDetailsService.addMortgageDetails(newMortgageDetails);
+      
       // Recalculate amortization schedule with the offset amount
       this.calculateAmortization();
+      if(!this.editMode){
+      this.updateMortgageApi(newMortgageDetails);
+      }else{
+        this.editMode =false;
+      }
     }
   }
 
@@ -314,6 +367,7 @@ export class MortgageDetailsComponent {
     totalPaymentWithOffset += this.downPayment + this.preprocessingCost;
     this.totalInterestPaid = totalInterestPaidWithOffset;
     this.totalPayment = parseFloat(totalPaymentWithOffset.toFixed(2));
+    this.monthlyPayment= parseFloat(this.monthlyPayment.toFixed(2));
 
     const newMortgageDetails = new MortgageDetails();
     newMortgageDetails.totalCost = this.totalCost;
@@ -335,7 +389,13 @@ export class MortgageDetailsComponent {
     newMortgageDetails.modelName = this.mortgageName.modelName; 
     newMortgageDetails.bankName = this.mortgageName.bankName || undefined;
 
-    this.mortgageDetailsService.addMortgageDetails(newMortgageDetails);
+    //this.mortgageDetailsService.addMortgageDetails(newMortgageDetails);
+    //this.updateMortgageApi(newMortgageDetails);
+    if (!this.editMode) {
+      this.updateMortgageApi(newMortgageDetails);
+    } else {
+      this.editMode = false;
+    }
   }
 
   calculateDailyPayments(schedule: AmortizationSchedule[], totalAmount: number) {
@@ -373,6 +433,46 @@ export class MortgageDetailsComponent {
       ]
     };
 
+  }
+
+  // Function to validate fields and update form validity
+  validateFields(): void {
+    // Check if all required fields are filled
+    if (!this.totalCost || !this.downPayment || !this.interestRate ||
+        (!this.loanTermYears && !this.loanTermMonths)) {
+      this.isFormValid = false;
+      return;
+    }
+
+    // Check if all values are positive
+    if (this.totalCost <= 0 || this.downPayment <= 0 || this.interestRate <= 0 ||
+        (this.loanTermYears && this.loanTermYears <= 0) ||
+        (this.loanTermMonths && this.loanTermMonths <= 0)) {
+      this.isFormValid = false;
+      return;
+    }
+
+    // If all checks pass, set the variable to true
+    this.isFormValid = true;
+  }
+
+  // Optionally call validateFields() whenever a field changes
+  onInputChange(): void {
+    this.validateFields();
+  }
+
+  updateMortgageApi(mortgageDetails: MortgageDetails) {
+    this.loading =true;
+    this.mortgageModelService.updateMortgageDetails(mortgageDetails).subscribe({
+      next: (response) => {
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Mortgage details updated successfully!'});
+        this.loading = false;
+      },
+      error: (error) => {
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error updating mortgage details.'});
+        this.loading = false;
+      }
+    });
   }
 }
 

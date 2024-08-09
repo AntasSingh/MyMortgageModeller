@@ -31,6 +31,7 @@ export class MortgageDetails {
   modelName: string; 
   bankName?: string;
   monthlyAdditionOffset: number; 
+  userEmail?: string;
 
   constructor() {
     this.totalCost = 0;
@@ -51,5 +52,29 @@ export class MortgageDetails {
     this.modelName = ''; 
     this.bankName = undefined; 
     this.monthlyAdditionOffset =0;
+    this.userEmail = undefined;
+  }
+  toJSON(): any {
+    return {
+      "model-name": this.modelName,
+      "user-email": this.userEmail,
+      "totalCost": this.totalCost,
+      "downPayment": this.downPayment,
+      "interestRate": this.interestRate,
+      "loanTerm": this.loanTerm,
+      "preprocessingCost": this.preprocessingCost,
+      "fixedAmount": this.fixedAmount,
+      "loanTermYears": this.loanTermYears,
+      "loanTermMonths": this.loanTermMonths,
+      "loanAmount": this.loanAmount,
+      "totalInterestPaid": this.totalInterestPaid,
+      "monthlyInterestRate": this.monthlyInterestRate,
+      "offsetOption": this.offsetOption,
+      "compoundingPeriod": this.compoundingPeriod,
+      "monthlyPayment": this.monthlyPayment,
+      "totalPayment": this.totalPayment,
+      "monthlyAdditionOffset": this.monthlyAdditionOffset,
+      "bankName": this.bankName
+    };
   }
 }

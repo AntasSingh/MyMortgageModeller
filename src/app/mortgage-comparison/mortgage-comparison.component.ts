@@ -14,8 +14,8 @@ export class MortgageComparisonComponent {
   Highcharts: typeof Highcharts = Highcharts; 
   mortgages: MortgageDetails[] = [];
   responsiveOptions: any[] = [];
-  chartData: any;
-  chartOptions: any;
+  chartData: Highcharts.SeriesOptionsType[] = [];;
+  chartOptions: Highcharts.Options ={};
   chartData2: any;
   chartOptions2: any;
   chartOptions22: Highcharts.Options = {};
@@ -44,22 +44,22 @@ export class MortgageComparisonComponent {
       }
     ];
     this.updateChartData();
-    this.chartOptions = {
-      plugins: {
-        legend: {
-          display: true,
-          position: 'top'
-        }
-      },
-      scales: {
-        x: {
-          stacked: true
-        },
-        y: {
-          stacked: true
-        }
-      }
-    };
+    // this.chartOptions = {
+    //   plugins: {
+    //     legend: {
+    //       display: true,
+    //       position: 'top'
+    //     }
+    //   },
+    //   scales: {
+    //     x: {
+    //       stacked: true
+    //     },
+    //     y: {
+    //       stacked: true
+    //     }
+    //   }
+    // };
     this.populateChartData(); 
     this.chartOptions2 = {
       responsive: true,
@@ -98,39 +98,39 @@ export class MortgageComparisonComponent {
     this.populateInterestChartData();
     this.populatePaymentChartData();
   }
-  updateChartData(): void {
-    const labels = this.mortgages.map((_, index) => `Loan ${index + 1}`);
-    const downPayments = this.mortgages.map(loan => loan.downPayment);
-    const preprocessingCharges = this.mortgages.map(loan => loan.preprocessingCost);
-    const loanAmounts = this.mortgages.map(loan => loan.loanAmount);
-    const interestPaid = this.mortgages.map(loan => loan.totalInterestPaid);
+  // updateChartData(): void {
+  //   const labels = this.mortgages.map((_, index) => `Loan ${index + 1}`);
+  //   const downPayments = this.mortgages.map(loan => loan.downPayment);
+  //   const preprocessingCharges = this.mortgages.map(loan => loan.preprocessingCost);
+  //   const loanAmounts = this.mortgages.map(loan => loan.loanAmount);
+  //   const interestPaid = this.mortgages.map(loan => loan.totalInterestPaid);
 
-    this.chartData = {
-      labels,
-      datasets: [
-        {
-          label: 'Down Payment',
-          backgroundColor: '#42A5F5',
-          data: downPayments
-        },
-        {
-          label: 'Preprocessing Charges',
-          backgroundColor: '#66BB6A',
-          data: preprocessingCharges
-        },
-        {
-          label: 'Loan Amount',
-          backgroundColor: '#FFA726',
-          data: loanAmounts
-        },
-        {
-          label: 'Interest Paid',
-          backgroundColor: '#FF6384',
-          data: interestPaid
-        }
-      ]
-    };
-  }
+  //   this.chartData = {
+  //     labels,
+  //     datasets: [
+  //       {
+  //         label: 'Down Payment',
+  //         backgroundColor: '#42A5F5',
+  //         data: downPayments
+  //       },
+  //       {
+  //         label: 'Preprocessing Charges',
+  //         backgroundColor: '#66BB6A',
+  //         data: preprocessingCharges
+  //       },
+  //       {
+  //         label: 'Loan Amount',
+  //         backgroundColor: '#FFA726',
+  //         data: loanAmounts
+  //       },
+  //       {
+  //         label: 'Interest Paid',
+  //         backgroundColor: '#FF6384',
+  //         data: interestPaid
+  //       }
+  //     ]
+  //   };
+  // }
 
   populateChartData(): void { // Renamed method
     // const labels = this.mortgages.length > 0 ? 
@@ -203,7 +203,7 @@ export class MortgageComparisonComponent {
 
     this.chartOptions22 = {
       title: {
-        text: 'Amortization Over Time'
+        text: 'Principal Over Time'
       },
       xAxis: {
         categories: labels,
@@ -476,6 +476,112 @@ export class MortgageComparisonComponent {
 
     console.log(series);
 }
+
+
+expandedItem: number | null = null;
+
+  toggleExpand(index: number) {
+    this.expandedItem = this.expandedItem === index ? null : index;
+  }
+
+  isExpanded(index: number): boolean {
+    return this.expandedItem === index;
+  }
+
+  updateChartData(): void {
+    const labels = this.mortgages.map((_, index) => `Loan ${index + 1}`);
+    const roundToTwoDecimals = (value: number) => parseFloat(value.toFixed(2));
+
+    const downPayments = this.mortgages.map(loan => roundToTwoDecimals(loan.downPayment));
+    const preprocessingCharges = this.mortgages.map(loan => roundToTwoDecimals(loan.preprocessingCost));
+    const loanAmounts = this.mortgages.map(loan => roundToTwoDecimals(loan.loanAmount));
+    const interestPaid = this.mortgages.map(loan => roundToTwoDecimals(loan.totalInterestPaid));
+
+    this.chartOptions = {
+      chart: {
+        type: 'column',
+        marginTop: 30,
+      },
+      title: {
+        text: 'Loan Breakdown'
+      },
+      xAxis: {
+        categories: labels
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Amount (£)'
+        },
+        stackLabels: {
+          enabled: true
+        }
+      },
+      legend: {
+        align: 'left',
+        x: 70,
+        verticalAlign: 'bottom', 
+        y: -20,
+        floating: false,
+        backgroundColor: Highcharts.defaultOptions?.legend?.backgroundColor || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+      },
+      tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+      },
+      plotOptions: {
+        column: {
+          stacking: 'normal',
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      series: [
+        {
+          type: 'column',
+          name: 'Down Payment',
+          data: downPayments,
+          stack: 'one'
+        },
+        {
+          type: 'column',
+          name: 'Preprocessing Charges',
+          data: preprocessingCharges,
+          stack: 'one'
+        },
+        {
+          type: 'column',
+          name: 'Loan Amount',
+          data: loanAmounts,
+          stack: 'one'
+        },
+        {
+          type: 'column',
+          name: 'Interest Paid',
+          data: interestPaid,
+          stack: 'one'
+        }
+      ]
+    };
+  }
+
+  displayModal = false;
+  selectedChart: number = 0; // 1 to 4 for different charts
+
+  // Methods to open the modal with the correct chart options
+  openModal(chartType: number): void {
+    this.selectedChart = chartType;
+    this.displayModal = true;
+  }
+
+  // Method to close the modal
+  closeModal(): void {
+    this.displayModal = false;
+  }
 
 }
 // ngOnInit(): void {

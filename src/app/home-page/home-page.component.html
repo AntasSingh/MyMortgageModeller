@@ -21,18 +21,64 @@
     </div>
   </section>
 </div>
-<!-- <div class="containerMain">
+<div class="containerMain">
   <section class="container">
     <h2 class="heading">All previous models</h2>
     <hr class="separator" />
-    <div class="models-container">
-      <article class="model-card" tabindex="0" *ngFor="let model of models">
-        <img loading="lazy" [src]="model.imageUrl" class="model-image" [alt]="model.name + ' for ' + model.bank" />
+    <div *ngIf="loading" class="loader-container">
+      <p-progressSpinner ariaLabel="loading" [style]="{'width': '50px', 'height': '50px'}"></p-progressSpinner>
+    </div>
+    <div *ngIf="!loading" class="models-container">
+      <article class="model-card" tabindex="0" *ngFor="let model of uerMortgageDetails">
+        <img loading="lazy" [src]="imageUrl" class="model-image" [alt]="model.modelName + ' for ' + model.bankName" />
         <section class="model-details">
-          <h3 class="model-name">{{ model.name }}</h3>
-          <p class="bank-name">{{ model.bank }}</p>
+          <h3 class="model-name">{{ model.modelName }}</h3>
+          <p class="bank-name">{{ model.bankName }}</p>
         </section>
+        <div class="actions">
+          <button class="action-button2 edit-button" (click)="editModel(model)">
+            <i class="fa-regular fa-pen-to-square"></i>
+          </button>
+          <button class="action-button2 delete-button" (click)="deleteModel(model)">
+            <i class="fa-regular fa-trash-can"></i>
+          </button>
+        </div>
       </article>
     </div>
   </section>
-</div> -->
+</div>
+
+<p-dialog header="Add New Mortgage Model" [(visible)]="displayModal" [modal]="true" [closable]="false" [responsive]="true" [style]="{width: '50vw'}">
+  <form (ngSubmit)="onSubmit()">
+    <div class="p-field">
+      <label for="modelName" style="margin-right: 1rem;">Model Name:</label>
+      <input class="model-input" type="text" id="modelName" [(ngModel)]="modelName" name="modelName" (ngModelChange)="onModelNameChange()" required>
+      <small *ngIf="!isModelNameUnique" class="error-message">Model name already exists.</small>
+    </div>
+    <div class="p-field">
+      <label for="bankName" style="margin-right: 1rem;">Bank Name (Optional):</label>
+      <input class="model-input" type="text" id="bankName" [(ngModel)]="bankName" name="bankName">
+    </div>
+    <button class="modal-button" type="submit" label="Submit" [disabled]="!modelName || !isModelNameUnique">Submit</button>
+    <button class="modal-button-cancel" type="button" label="Cancel"  (click)="displayModal = false">Cancel</button>
+  </form>
+</p-dialog>
+
+<p-dialog header="Compare Mortgage Models" [(visible)]="compareModalVisible" [modal]="true" [closable]="true" [responsive]="true" [style]="{width: '50vw'}">
+  <form>
+    <div class="p-field">
+      <label>Select Models to Compare:</label>
+      <div *ngFor="let model of uerMortgageDetails">
+        <p-checkbox
+          name="compareModel"
+          [value]="model"
+          [(ngModel)]="selectedModels"
+          label="{{ model.modelName }}">
+        </p-checkbox>
+      </div>
+      </div>
+    <button class="modal-button" type="button" (click)="compareSelectedModels()">Compare</button>
+    <button class="modal-button-cancel" type="button" (click)="compareModalVisible = false">Close</button>
+  </form>
+</p-dialog>
+<p-toast></p-toast>

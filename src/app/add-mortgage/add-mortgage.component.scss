@@ -194,3 +194,34 @@
   margin: 4%;
   font-weight: bold;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+  height: 100vh; /* Ensure the container covers full viewport height */
+  align-items: start; /* Align items to the start to keep them at the top */
+  transition: all 0.3s ease; /* Smooth transition for grid changes */
+}
+
+.grid-item {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.grid-item.expanded {
+  grid-column: span 2; /* Span across both columns */
+  grid-row: span 2;    /* Span across both rows */
+  transform: scale(1.1); /* Slightly scale up the item */
+  z-index: 1; /* Bring the expanded item on top */
+}
+
+.grid-item:not(.expanded) {
+  /* Make non-expanded items have a lower z-index to ensure they stay below the expanded item */
+  z-index: 0;
+}

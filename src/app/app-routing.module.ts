@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent},
-  { path: 'home', component: HomePageComponent},
+  { path: 'home', component: HomePageComponent,canActivate: [authGuard] },
   { path: 'mortgageDetails', component: MortgageDetailsComponent,canActivate: [authGuard]  },
   { path: 'addMortgage', component: AddMortgageComponent ,canActivate: [authGuard] },
   { path: 'compareMortgages', component: MortgageComparisonComponent,canActivate: [authGuard]  },

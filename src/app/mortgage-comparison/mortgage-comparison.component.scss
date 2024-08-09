@@ -96,14 +96,15 @@
   
    /* Styling for the carousel container */
 .comparison-container {
-    background-color: #A9C25D;
-
+    // background-color: #A9C25D;
+    max-width: 100%;
+    margin: 5rem; 
     .p-carousel {
       /* Ensure the carousel items are displayed in a row */
       display: flex;
       flex-wrap: nowrap;
       overflow-x: auto;
-      background-color: #A9C25D;
+      // background-color: #A9C25D;
 
       /* Optional: Hide scrollbar */
       scrollbar-width: none; /* Firefox */
@@ -117,7 +118,7 @@
     .p-carousel .p-carousel-item {
       box-sizing: border-box;
       flex: 0 0 auto;
-      width: 33.33%; /* Adjust to fit your needs */
+      width: 26.66%; /* Adjust to fit your needs */
       overflow: hidden; /* Hide overflow */
       display: flex;
       align-items: center;
@@ -129,14 +130,14 @@
       flex-direction: column;
       align-items: center;
       border: 1px solid var(--surface-d);
-      border-radius: 3px;
+      border-radius: 1.25rem;
       margin: .3rem;
       text-align: center;
       padding: .5rem .5rem;
-      background-color: #F6EEC0;
+      background-color: #f7f9fc;
       //width: 100%; /* Ensure it uses full width of the carousel item */
     }
-  
+
     .details {
       text-align: center;
     }
@@ -149,3 +150,169 @@
     margin: 5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
+  // .carousel-container{
+  //   display: grid;
+  // justify-content: center;
+  // align-items: center;
+  // }
+
+  .charts-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px; /* Space between items */
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    position: relative;
+  }
+  
+  .chart-container {
+    background-color: #f9f9f9; /* Background color */
+    border: 1px solid #ddd; /* Border for clarity */
+    overflow: hidden; /* Hide overflow to prevent scrollbars */
+    transition: all 0.3s ease; /* Smooth transition for scaling */
+    position: relative; /* Necessary for proper z-index stacking */
+    display: flex; /* Use flexbox to center content */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .chart-container p-chart, .chart-container highcharts-chart {
+    width: 100%; /* Full width of the container */
+    height: 100%; /* Full height of the container */
+  }
+  
+  .chart-container.expanded {
+    grid-column: span 2; /* Span across both columns */
+    grid-row: span 2;    /* Span across both rows */
+    transform: scale(1.1); /* Slightly scale up the item */
+    z-index: 1; /* Bring the expanded item on top */
+  }
+  
+  .chart-display{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Create 2 equal columns */
+    grid-template-rows: repeat(2, 1fr); /* Create 2 equal rows */
+    gap: 16px; /* Space between grid items */
+    height: 600px; /* Adjust as needed */
+    margin-left: 6rem;
+    margin-right: 6rem;
+  }
+  
+  .chart-item {
+    border: 1px solid #ddd; /* Optional: Add border for better visibility */
+    box-sizing: border-box; /* Include padding and border in width and height */
+  }
+  
+  .chart-item-1 {
+    grid-column: 1 / 2; /* Start at column 1, end at column 2 */
+    grid-row: 1 / 2; /* Start at row 1, end at row 2 */
+  }
+  
+  .chart-item-2 {
+    grid-column: 2 / 3; /* Start at column 2, end at column 3 */
+    grid-row: 1 / 2; /* Start at row 1, end at row 2 */
+  }
+  
+  .chart-item-3 {
+    grid-column: 1 / 2; /* Start at column 1, end at column 2 */
+    grid-row: 2 / 3; /* Start at row 2, end at row 3 */
+  }
+  
+  .chart-item-4 {
+    grid-column: 2 / 3; /* Start at column 2, end at column 3 */
+    grid-row: 2 / 3; /* Start at row 2, end at row 3 */
+  }
+  
+  // .chart-card {
+  //   background-color: #f7f9fc; /* Light background color */
+  //   border-radius: 10px; /* Rounded corners */
+  //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  //   padding: 16px; /* Space inside the card */
+  //   box-sizing: border-box; /* Include padding and border in width and height */
+  //   height: 100%; /* Ensure the card takes the full height of the grid item */
+  // }
+
+  .chart-card {
+    position: relative; /* To position the overlay absolutely within the card */
+    background-color: #f7f9fc; /* Light background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 16px; /* Space inside the card */
+    box-sizing: border-box; /* Include padding and border in width and height */
+    height: 100%; /* Ensure the card takes the full height of the grid item */
+    overflow: hidden; /* Hide any overflowing content */
+  }
+  
+  .chart-content {
+    height: 100%; /* Ensure the chart content takes the full height of the card */
+  }
+  
+  .overlay {
+    position: absolute; /* Position overlay absolutely within the card */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    color: white; /* Text color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    opacity: 0; /* Hide overlay by default */
+    transition: opacity 0.3s ease; /* Smooth transition */
+  }
+  
+  // .chart-card:hover .overlay {
+  //   opacity: 1; /* Show overlay on hover */
+  // }
+
+  .chart-card:hover .overlay {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .modal-chart-container {
+    height: 100%;
+    width: 100%;
+  }
+
+  .graph-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .info-title {
+    color: rgba(70, 87, 233, 0.6);
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  
+  .info-text {
+    color: rgba(70, 87, 233, 0.6);
+    font-weight: 400;
+    margin: 0;
+  }
+  
+  .info-box {
+    border-radius: 12px;
+    background-color: #f7f9fc;
+    margin-top: 14px;
+    padding: 12px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-left: 5.5rem;
+    margin-right: 5.5rem;
+    margin-bottom: 3rem;
+  }
+  

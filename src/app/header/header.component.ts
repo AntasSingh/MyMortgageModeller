@@ -13,6 +13,7 @@ export class HeaderComponent {
 
   open() {
     this.isVisible = true;
+    const userEmail = this.authService.getCookie('userEmail');
   }
 
   close() {

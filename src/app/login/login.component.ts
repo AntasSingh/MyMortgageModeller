@@ -30,7 +30,7 @@ export class LoginComponent {
       responseMessage => {
         this.message = responseMessage;
         this.showError = false;
-        this.router.navigate(['/addMortgage']);
+        this.router.navigate(['/home']);
       },
       error => {
         this.showError = true;
