@@ -24,7 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/mortgage-modeller",
+            "outputPath": "docs",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -54,6 +54,8 @@
           },
           "configurations": {
             "production": {
+              "outputPath": "docs",
+              "baseHref": "/MyMortgageModeller/",
               "budgets": [
                 {
                   "type": "initial",
@@ -69,6 +71,8 @@
               "outputHashing": "all"
             },
             "development": {
+              "outputPath": "docs",
+              "baseHref": "/MyMortgageModeller/",
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
