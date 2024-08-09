@@ -65,7 +65,7 @@
           <p *ngIf="message" class="error-message">{{ message }}</p>
         </div>
         <p class="signup-text">
-          Don't have an account? <a href="#" class="signup-link">Sign Up</a>
+          Don't have an account? <a (click)="onSignUpClick()" class="signup-link">Sign Up</a>
         </p>
       </section>
     </main>

@@ -39,6 +39,10 @@ export class LoginComponent {
       }
     );
   }
+
+  onSignUpClick(): void {
+    this.router.navigate(['/signup']);
+  }
 }
 
 

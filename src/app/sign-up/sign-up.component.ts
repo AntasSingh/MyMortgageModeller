@@ -59,4 +59,8 @@ export class SignUpComponent {
       }
     );
   }
+
+  onLoginClick(): void {
+    this.router.navigate(['/login']);
+  }
 }

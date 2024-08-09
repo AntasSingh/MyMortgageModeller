@@ -25,4 +25,8 @@ export class HeaderComponent {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  onHomeClick(): void {
+    this.router.navigate(['/home']);
+  }
 }
