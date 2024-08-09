@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'mortgageDetails', component: MortgageDetailsComponent,canActivate: [authGuard]  },
   { path: 'addMortgage', component: AddMortgageComponent ,canActivate: [authGuard] },
   { path: 'compareMortgages', component: MortgageComparisonComponent,canActivate: [authGuard]  },
+  { path: '**', redirectTo: '/login', pathMatch: 'full'}
 ];
 
 @NgModule({
