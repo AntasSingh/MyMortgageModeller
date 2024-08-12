@@ -34,6 +34,7 @@ export class HomePageComponent {
   
   ngOnInit() {
     this.loadMortgageDetails();
+    this.mortgageService.clearDataMortgage();
     this.modelOptions = this.uerMortgageDetails.map(model => ({
       name: model.modelName,
       displayName: `${model.modelName} - ${model.bankName || 'Unknown Bank'}`

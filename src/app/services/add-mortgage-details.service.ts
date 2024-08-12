@@ -25,4 +25,9 @@ export class AddMortgageDetailsService {
   getEditModel(){
     return this.currentEditModel;
   }
+
+  clearDataMortgage() {
+    this.currentEditModel = undefined;
+    this.currentMortgage = null;
+  }
 }

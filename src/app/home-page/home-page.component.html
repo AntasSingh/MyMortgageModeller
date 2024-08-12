@@ -70,6 +70,7 @@
       <label>Select Models to Compare:</label>
       <div *ngFor="let model of uerMortgageDetails">
         <p-checkbox
+        class="checkbox-item"
           name="compareModel"
           [value]="model"
           [(ngModel)]="selectedModels"
