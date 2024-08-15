@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HighchartsAreaChartComponent } from './highcharts-area-chart.component';
+import { TestSetupModule } from '../test/test-setup.module';
 
 describe('HighchartsAreaChartComponent', () => {
   let component: HighchartsAreaChartComponent;
@@ -8,7 +9,8 @@ describe('HighchartsAreaChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HighchartsAreaChartComponent]
+      declarations: [HighchartsAreaChartComponent],
+      imports: [TestSetupModule]
     })
     .compileComponents();
 

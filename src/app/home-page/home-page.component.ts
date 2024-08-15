@@ -28,6 +28,9 @@ export class HomePageComponent {
   selectedModels: MortgageDetails[] = [];
   compareModalVisible = false;
   modelOptions: { name: string; displayName: string; }[] = []; // Options for the multiselect
+  displayConfirmDialog: boolean = false; // Control modal visibility
+  modelToDelete: MortgageDetails | null = null; // Store the model to delete
+
 
   imageUrl= "https://cdn.builder.io/api/v1/image/assets/TEMP/069649a922986d4c9212398e51dcee2ddaff6b376ee995d33b4e7f382f70d7a5?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25"
   constructor(private router: Router, private mortgageService: AddMortgageDetailsService,private mortgageModelService: MortgageModelService,private messageService: MessageService,private mortgageDetailsService: MortgageDetailsService){}
@@ -102,5 +105,34 @@ export class HomePageComponent {
     this.mortgageDetailsService.addMortgageDetails(this.selectedModels);
     this.router.navigate(['/compareMortgages']);
     this.compareModalVisible = false; // Close the modal
+  }
+
+  onDeleteClick(model: MortgageDetails): void {
+    this.modelToDelete = model; // Set the model to delete
+    this.displayConfirmDialog = true; // Show the confirmation modal
+  }
+
+  confirmDelete(): void {
+    if (this.modelToDelete) {
+      const name:string = this.modelToDelete.modelName;
+      this.mortgageModelService.deleteModel(this.modelToDelete.modelName).subscribe({
+        next: (response) => {
+          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Mortgage deleted successfully!'});
+          this.uerMortgageDetails = this.uerMortgageDetails.filter(detail => detail.modelName !== name);
+        },
+        error: (error) => {
+          this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error deleting model.'});
+        }
+      });
+    }
+
+    // Reset and hide the dialog
+    this.displayConfirmDialog = false;
+    this.modelToDelete = null; // Clear the model to delete
+  }
+
+  cancelDelete(): void {
+    this.displayConfirmDialog = false; // Hide the dialog
+    this.modelToDelete = null; // Clear the model to delete
   }
 }

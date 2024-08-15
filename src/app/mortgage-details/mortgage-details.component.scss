@@ -160,3 +160,12 @@ small{
   height: 20px;
   transform: translate(-50%, -50%);
 }
+
+.custom-input {
+  background-color: #F7F9FC; /* Set background color to match the container */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Optional: Add slight rounding to the corners */
+  padding: 0.5rem 1rem; /* Add padding for better appearance */
+  box-shadow: none; /* Remove any shadow if present */
+  width: 100%; /* Make sure the input box fills the container */
+}

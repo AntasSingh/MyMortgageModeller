@@ -6,15 +6,15 @@
         Your Mortgage <span class="highlight">Simplified</span>
       </h1>
       <p class="subtitle">
-        Calculate and Compare Mortgage Options Effortlessly
+        Calculate and Compare Mortgage Options Effortlessly.Click "Add Mortgage" to Calculate, Click "Compare Mortgages" to compare
       </p>
     </header>
     <div class="action-cards">
-      <article class="card">
+      <article class="card" (click)="addNewModel()">
         <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/00af33d933b7664d73fecac5f134217f2f63926bb273020f6e6d2e76c33f8289?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="Add New Model Icon" class="card-icon" />
-        <button class="action-button" (click)="addNewModel()">Add New Model</button>
+        <button class="action-button" (click)="addNewModel()">Add Mortgage</button>
       </article>
-      <article class="card">
+      <article class="card" (click)="compareMortgage()">
         <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/d4f1669b4c7883c156f1e9658b0610fca56d55dc4706acfe00b68b71c31b533b?apiKey=b8cd2a35a0944055882476362c208f25&&apiKey=b8cd2a35a0944055882476362c208f25" alt="Compare Mortgage Icon" class="card-icon" />
         <button class="action-button" (click)="compareMortgage()">Compare Mortgage</button>
       </article>
@@ -39,7 +39,7 @@
           <button class="action-button2 edit-button" (click)="editModel(model)">
             <i class="fa-regular fa-pen-to-square"></i>
           </button>
-          <button class="action-button2 delete-button" (click)="deleteModel(model)">
+          <button class="action-button2 delete-button" (click)="onDeleteClick(model)">
             <i class="fa-regular fa-trash-can"></i>
           </button>
         </div>
@@ -82,4 +82,13 @@
     <button class="modal-button-cancel" type="button" (click)="compareModalVisible = false">Close</button>
   </form>
 </p-dialog>
+
+<p-dialog header="Confirm Deletion" [(visible)]="displayConfirmDialog" [modal]="true" [responsive]="true" [style]="{width: '300px'}">
+  <p>Are you sure you want to delete this model?</p>
+  <div class="p-dialog-footer">
+    <button type="button" pButton label="Yes" icon="pi pi-check" (click)="confirmDelete()" class="p-button-success"></button>
+    <button type="button" pButton label="No" icon="pi pi-times" (click)="cancelDelete()" class="p-button-secondary"></button>
+  </div>
+</p-dialog>
+
 <p-toast></p-toast>

@@ -188,7 +188,7 @@ export class MortgageDetailsComponent {
       const totalPayment = (monthlyPayment * numberOfPayments) + this.downPayment + this.preprocessingCost;
       this.totalPayment = parseFloat(totalPayment.toFixed(2));
       this.monthlyPayment= parseFloat(this.monthlyPayment.toFixed(2));
-
+      this.totalInterestPaid = parseFloat(this.totalInterestPaid.toFixed(2));
       const newMortgageDetails = new MortgageDetails();
       newMortgageDetails.totalCost = this.totalCost;
       newMortgageDetails.downPayment = this.downPayment;
@@ -368,6 +368,7 @@ export class MortgageDetailsComponent {
     this.totalInterestPaid = totalInterestPaidWithOffset;
     this.totalPayment = parseFloat(totalPaymentWithOffset.toFixed(2));
     this.monthlyPayment= parseFloat(this.monthlyPayment.toFixed(2));
+    this.totalInterestPaid = parseFloat(this.totalInterestPaid.toFixed(2));
 
     const newMortgageDetails = new MortgageDetails();
     newMortgageDetails.totalCost = this.totalCost;

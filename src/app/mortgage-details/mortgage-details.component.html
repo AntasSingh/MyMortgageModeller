@@ -2,9 +2,17 @@
 <div class="content">
   <div class="box">
     <div *ngIf="mortgageName">
-      <h2>Model Name: {{ mortgageName.modelName }}</h2>
+      <h2>Mortgage Name: {{ mortgageName.modelName }}</h2>    
       <!-- Conditionally display bank name if it exists -->
       <p *ngIf="mortgageName.bankName">Bank Name: {{ mortgageName.bankName }}</p>
+      <div class="p-field">
+        <div><small>Click below to edit the name of the Mortgage.</small></div>
+        <div class="p-inputgroup">
+          <input id="modelName" type="text" pInputText [(ngModel)]="mortgageName.modelName"
+            placeholder="Enter model name" (focus)="onFocusInput($event)" (blur)="onBlurInput($event)" 
+            (input)="onInputChange()" class="custom-input">
+        </div>
+      </div>  
     </div>
     <div class="boxInner">
     <p>Enter your details:</p>
@@ -37,7 +45,7 @@
         </div>
       </div>
       <div class="p-field">
-        <label for="interestRate">Intrest Rate*</label>
+        <label for="interestRate">Interest Rate*</label>
         <div><small>Enter the annual interest rate for the mortgage.</small></div>
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon">%</span>
@@ -153,7 +161,7 @@
     <div class="p-grid p-nogutter">
       <div class="p-col" *ngIf="amortizationSchedule.length > 0" class="result-container paddingTop-container">
         <div class="note">
-          <small>Below we can see the principial amount vs Intrest Over Time:</small>
+          <small>Below we can see the principal amount vs Interest Over Time:</small>
         </div>
         <app-highcharts-area-chart [amortizationSchedule]="amortizationSchedule"></app-highcharts-area-chart>
       </div>

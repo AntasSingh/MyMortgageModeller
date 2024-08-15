@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MortgagePieChartComponent } from './mortgage-pie-chart.component';
+import { TestSetupModule } from '../test/test-setup.module';
 
 describe('MortgagePieChartComponent', () => {
   let component: MortgagePieChartComponent;
@@ -8,7 +9,8 @@ describe('MortgagePieChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MortgagePieChartComponent]
+      declarations: [MortgagePieChartComponent],
+      imports: [TestSetupModule]
     })
     .compileComponents();
 

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HighchartsLTVChartComponent } from './highcharts-ltv-chart.component';
+import { TestSetupModule } from '../test/test-setup.module';
 
 describe('HighchartsLtvChartComponent', () => {
   let component: HighchartsLTVChartComponent;
@@ -8,7 +9,8 @@ describe('HighchartsLtvChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HighchartsLTVChartComponent]
+      declarations: [HighchartsLTVChartComponent],
+      imports: [TestSetupModule]
     })
     .compileComponents();
 
